@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bålsta & Mälaren — Guida di viaggio · 10 giorni in Svezia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f3f7fb; --ink:#1b2733; --muted:#5c6b7a; --line:#dde6ee;
+    --terracotta:#1f6fb2; --terracotta-d:#15527f;
+    --gold:#d9a425; --teal:#2a8c8c; --purple:#6b5b95; --sea:#2f7fb5;
+    --card:#ffffff; --shadow:0 6px 22px rgba(20,50,80,.10);
+    --r:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:'Inter',system-ui,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',Georgia,serif}
+  a{color:var(--terracotta-d)}
+  img{max-width:100%;display:block}
+
+  /* ===== Header / hero ===== */
+  header.hero{
+    background:linear-gradient(135deg,#123f63 0%,#1f6fb2 50%,#3f93cf 100%);
+    color:#fff;padding:30px 20px 22px;position:relative;overflow:hidden;
+  }
+  header.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% -10%,rgba(255,255,255,.18),transparent 45%);pointer-events:none}
+  .hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+  .hero h1{font-size:clamp(30px,5vw,52px);line-height:1.02;margin:0 0 6px;font-weight:700;letter-spacing:.5px}
+  .hero p.sub{margin:0;font-size:clamp(15px,2vw,19px);opacity:.95;font-weight:500}
+  .hero .base{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.3);padding:8px 14px;border-radius:30px;font-size:14px;backdrop-filter:blur(4px)}
+  .hero .base b{font-weight:700}
+
+  /* ===== Tabs ===== */
+  .tabbar{position:sticky;top:0;z-index:50;background:rgba(250,246,239,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:8px 12px}
+  .tabbar-inner{max-width:1200px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+  .tab{border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 16px;border-radius:30px;
+    font-weight:600;font-size:14.5px;white-space:nowrap;cursor:pointer;transition:.18s;display:flex;align-items:center;gap:7px}
+  .tab:hover{border-color:var(--terracotta);color:var(--terracotta-d)}
+  .tab.active{background:var(--terracotta);border-color:var(--terracotta);color:#fff;box-shadow:0 4px 12px rgba(192,86,59,.35)}
+
+  main{max-width:1200px;margin:0 auto;padding:18px 16px 60px}
+  .panel{display:none;animation:fade .25s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .panel-head{margin:6px 0 14px}
+  .panel-head h2{font-size:clamp(26px,4vw,38px);margin:0 0 4px;font-weight:700}
+  .panel-head p{margin:0;color:var(--muted);max-width:760px}
+
+  /* ===== Setup banner ===== */
+  .setup{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;
+    padding:16px 18px;margin:0 0 18px;box-shadow:var(--shadow)}
+  .setup h3{margin:0 0 6px;font-size:22px}
+  .setup ol{margin:8px 0 4px;padding-left:20px}
+  .setup li{margin:5px 0}
+  .setup code{background:#f3ece0;padding:2px 7px;border-radius:6px;font-size:13px;border:1px solid var(--line)}
+  .setup details{margin-top:8px}
+  .setup summary{cursor:pointer;font-weight:600;color:var(--terracotta-d)}
+  .pill-ok{display:inline-block;background:#e7f4ec;color:#1d7a47;border:1px solid #b9e0c8;padding:3px 10px;border-radius:20px;font-size:12.5px;font-weight:600}
+  .pill-warn{display:inline-block;background:#fdeee6;color:#9c3f29;border:1px solid #f3cdba;padding:3px 10px;border-radius:20px;font-size:12.5px;font-weight:600}
+
+  /* ===== Map ===== */
+  #map{width:100%;height:66vh;min-height:420px;border-radius:var(--r);box-shadow:var(--shadow);background:#dfeaf0}
+  .map-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
+  .legend{display:flex;flex-wrap:wrap;gap:6px}
+  .lg{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:30px;border:1px solid var(--line);
+    background:#fff;cursor:pointer;font-weight:600;font-size:13.5px;user-select:none;transition:.15s}
+  .lg .dot{width:12px;height:12px;border-radius:50%}
+  .lg.off{opacity:.4;filter:grayscale(.6)}
+  .map-note{font-size:13px;color:var(--muted);margin:10px 2px 0}
+  #mapFallback{display:none;padding:26px;text-align:center;background:#fff;border:1px dashed var(--line);border-radius:var(--r)}
+
+  /* ===== Search ===== */
+  .searchrow{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+  .searchrow input[type=search]{flex:1;min-width:200px;padding:11px 14px;border:1px solid var(--line);border-radius:30px;
+    font-size:15px;background:#fff}
+  .chip{border:1px solid var(--line);background:#fff;padding:8px 13px;border-radius:30px;font-size:13px;font-weight:600;
+    cursor:pointer;color:var(--muted);transition:.15s}
+  .chip:hover{border-color:var(--terracotta)}
+  .chip.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .badgefilters{display:flex;flex-wrap:wrap;gap:8px;margin:-4px 0 2px}
+  .bchip{border:1px solid var(--line);background:#fff;padding:7px 12px;border-radius:30px;font-size:12.5px;font-weight:700;cursor:pointer;user-select:none;color:var(--muted);transition:.15s}
+  .bchip:hover{border-color:var(--terracotta)}
+  .bchip.active{color:#fff;border-color:transparent}
+  .bchip[data-b="top"].active{background:linear-gradient(135deg,#f0a500,#e26a1b)}
+  .bchip[data-b="verace"].active{background:#3a7d44}
+  .bchip[data-b="carino"].active{background:#8e54b8}
+  .bchip[data-b="tur"].active{background:#9a6b00}
+
+  /* ===== Cards grid ===== */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);
+    display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s;scroll-margin-top:90px}
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(60,40,20,.16)}
+  .card.flash{animation:flash 1.6s ease}
+  @keyframes flash{0%,100%{box-shadow:var(--shadow)}20%{box-shadow:0 0 0 4px rgba(191,155,67,.7)}}
+  .card .imgwrap{position:relative;height:188px;background:#efe7da;overflow:hidden}
+  .card .imgwrap img{width:100%;height:100%;object-fit:cover}
+  .card .imgwrap .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:54px;
+    background:linear-gradient(135deg,#efe2cf,#e4d3bb)}
+  .card .imgwrap.split{display:flex}
+  .card .imgwrap.split .half{position:relative;width:50%;height:100%;overflow:hidden}
+  .card .imgwrap.split .half.place{border-right:2px solid #fff}
+  .card .imgwrap.split .half .ph{font-size:38px}
+  .dishtag{position:absolute;bottom:6px;left:6px;background:rgba(44,34,24,.8);color:#fff;font-size:10px;
+    font-weight:600;padding:2px 8px;border-radius:12px;letter-spacing:.3px}
+  .card .imgwrap .striprow{display:flex;height:100%;width:100%}
+  .card .imgwrap .striprow img{flex:1 1 0;min-width:0;height:100%;object-fit:cover}
+  .card .imgwrap .striprow img+img{border-left:2px solid #fff}
+  .card .badges{position:absolute;top:10px;left:10px;display:flex;flex-wrap:wrap;gap:6px;max-width:88%}
+  .badge{background:rgba(44,34,24,.82);color:#fff;font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:20px;backdrop-filter:blur(3px)}
+  .badge.type{background:rgba(255,255,255,.92);color:var(--ink)}
+  .badge.star{background:var(--gold);color:#fff}
+  .badge.luc{background:linear-gradient(135deg,#c0398f,#7d3cc0);color:#fff;box-shadow:0 1px 7px rgba(125,60,192,.5);font-weight:700}
+  .badge.near{background:#2e7d52;color:#fff;font-weight:700}
+  .badge.top{background:linear-gradient(135deg,#f0a500,#e26a1b);color:#fff;font-weight:800;box-shadow:0 1px 7px rgba(226,106,27,.5)}
+  .badge.verace{background:#3a7d44;color:#fff;font-weight:700}
+  .badge.carino{background:#8e54b8;color:#fff;font-weight:700}
+  .badge.turistico{background:rgba(255,255,255,.92);color:#9a6b00;border:1px solid #e0b35c;font-weight:700}
+  .badge.dist{position:absolute;bottom:10px;right:10px;background:rgba(27,138,154,.92)}
+  .card .body{padding:14px 15px 16px;display:flex;flex-direction:column;gap:9px;flex:1}
+  .card h3{margin:0;font-size:23px;line-height:1.1}
+  .card .town{font-size:12.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-top:-3px}
+  .card .desc{font-size:14px;color:#4a3c2c;margin:0}
+  .rating{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--muted);min-height:18px}
+  .stars{color:var(--gold);letter-spacing:1px;font-size:15px}
+  .spec{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+  .spec span{background:#f5efe4;border:1px solid var(--line);color:#6a5a45;font-size:11.5px;padding:3px 8px;border-radius:14px}
+  .meta{font-size:13px;color:#4a3c2c;display:flex;flex-direction:column;gap:3px}
+  .meta a{color:var(--terracotta-d);text-decoration:none;font-weight:600}
+  .meta a:hover{text-decoration:underline}
+  .hours summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--ink)}
+  .hours ul{margin:6px 0 0;padding-left:16px;font-size:12.5px;color:var(--muted)}
+  .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+  .btn{flex:1;min-width:120px;text-align:center;border:none;border-radius:10px;padding:10px;font-size:13.5px;font-weight:700;
+    cursor:pointer;text-decoration:none;transition:.15s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+  .btn.dir{background:var(--teal);color:#fff}
+  .btn.dir:hover{background:#157180}
+  .btn.gm{background:#f3ece0;color:var(--ink);border:1px solid var(--line)}
+  .btn.gm:hover{border-color:var(--terracotta)}
+  .reviews{border-top:1px dashed var(--line);padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:9px}
+  .reviews .rv{font-size:12.7px;color:#52442f;background:#faf5ec;border-radius:10px;padding:8px 10px}
+  .reviews .rv .who{font-weight:700;color:var(--ink);display:flex;justify-content:space-between;gap:8px;font-size:12px}
+  .reviews .rv .who small{color:var(--muted);font-weight:500}
+  .loading{font-size:12.5px;color:var(--muted);font-style:italic}
+  .where{margin:2px 0 0;font-size:13.5px}
+  .where b{font-weight:700}
+  .where .lk{display:inline-block;margin:3px 5px 0 0}
+  .tag-eat{display:inline-block;background:var(--terracotta);color:#fff;border-radius:6px;padding:2px 7px;font-size:11.5px;font-weight:600;text-decoration:none}
+  .tag-eat:hover{background:var(--terracotta-d)}
+  .tag-eat.txt{background:#efe7da;color:#6a5a45}
+  .dishrow{margin-top:2px;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+  .dishrow .lbl{font-size:11.5px;color:var(--muted);font-weight:700;margin-right:1px}
+  .tag-dish{display:inline-block;background:#fff3e0;border:1px solid #e9c89a;color:#9a5b1e;border-radius:20px;padding:3px 9px;font-size:11.5px;font-weight:600;text-decoration:none;cursor:pointer}
+  .tag-dish:hover{background:#ffe7c4}
+  .pm-overlay{position:fixed;inset:0;background:rgba(28,18,10,.62);display:none;align-items:flex-start;justify-content:center;z-index:1000;padding:20px;overflow-y:auto}
+  .pm-overlay.open{display:flex}
+  .pm-box{background:var(--card);max-width:560px;width:100%;border-radius:var(--r);position:relative;box-shadow:0 24px 70px rgba(0,0,0,.45);margin:auto}
+  .pm-close{position:absolute;top:10px;right:10px;z-index:3;border:none;background:rgba(0,0,0,.55);color:#fff;width:36px;height:36px;border-radius:50%;font-size:17px;cursor:pointer;line-height:1}
+  .pm-load{padding:48px 20px;text-align:center;color:var(--muted)}
+  .pm-gallery{display:flex;gap:2px;border-radius:var(--r) var(--r) 0 0;overflow:hidden}
+  .pm-gallery img{flex:1 1 0;min-width:0;height:220px;object-fit:cover}
+  .pm-content{padding:15px 18px 20px}
+  .pm-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .pm-content h2{margin:0 0 2px;font-size:21px}
+  .pm-dishes{margin:11px 0;background:#faf4ea;border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .pm-dishes b{font-size:13px;width:100%;margin-bottom:2px}
+  .pm-meta{font-size:13.5px;margin:6px 0}
+  .pm-reviews{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+  .pm-rev{font-size:12.5px;color:#4a3d2e;background:#faf6ef;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+  .itin-grid{grid-template-columns:repeat(auto-fill,minmax(430px,1fr))}
+  @media(max-width:560px){ .itin-grid{grid-template-columns:1fr} }
+  .card.itin{padding:16px 18px}
+  .itin-head{margin-bottom:6px}
+  .itags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+  .itag{color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+  .card.itin h3{margin:0 0 4px;font-size:18px}
+  .itin-tot{font-size:13px;font-weight:700;color:var(--teal)}
+  .itin-timeline{margin-top:10px;border-left:2px dashed var(--line);padding-left:14px;display:flex;flex-direction:column;gap:2px}
+  .itin-row{position:relative;padding:5px 0}
+  .itin-row.base{font-size:13px;color:var(--muted)}
+  .itin-row.base b{color:var(--ink)}
+  .itin-drive{font-size:11.5px;color:var(--muted);padding:2px 0;font-weight:600}
+  .itin-row.stop{padding:7px 10px;border-radius:10px;background:#faf6ef}
+  .itin-row.stop.beach{background:#eef6f7}
+  .itin-row.stop.eat{background:#fbf1ec}
+  .itin-row.stop.see{background:#f5f0e6}
+  .islot{display:block;font-size:11px;font-weight:800;letter-spacing:.02em;color:var(--muted);text-transform:uppercase}
+  .ilink{font-weight:700;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--gold)}
+  .ilink:hover{color:var(--terracotta)}
+  .itown{font-size:12px;color:var(--muted)}
+  .inote{font-size:12.5px;color:#5a4c3a;margin-top:2px}
+
+  footer{max-width:1200px;margin:0 auto;padding:24px 16px 50px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line)}
+  .count{font-size:13px;color:var(--muted);margin:0 0 12px}
+  @media(max-width:560px){
+    .card .imgwrap{height:170px}
+    #map{height:58vh}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ CONFIG ============ -->
+<script>
+  /*  ┌──────────────────────────────────────────────────────────────┐
+      │  INCOLLA QUI LA TUA CHIAVE GOOGLE MAPS PLATFORM                │
+      │  (vedi le istruzioni "Setup chiave Google" nella prima pagina) │
+      └──────────────────────────────────────────────────────────────┘  */
+  const GOOGLE_MAPS_API_KEY = "AIzaSyAI0Xo8_71Q633gP9O73s2ij92V16CSOOg";
+
+  // Base del viaggio
+  const MASSERIA = { lat: 59.61447, lng: 17.39138,
+    name: "Casa di Bålsta",
+    addr: "Målarvägen 8, 746 93 Bålsta",
+    query: "Målarvägen 8, 746 93 Bålsta, Sweden" };
+</script>
+
+<header class="hero">
+  <div class="hero-inner">
+    <h1>Bålsta &amp; Mälaren</h1>
+    <p class="sub">Guida di viaggio &amp; gastronomica · 10 giorni tra Stoccolma, Uppsala, Sigtuna e i castelli del lago Mälaren</p>
+    <span class="base">🏡 Base: <b>Bålsta</b> · Håbo, Uppland (Svezia)</span>
+  </div>
+</header>
+
+<nav class="tabbar">
+  <div class="tabbar-inner" id="tabbar">
+    <button class="tab active" data-tab="mappa">🗺️ Mappa</button>
+    <button class="tab" data-tab="itinerari">📅 Itinerari</button>
+    <button class="tab" data-tab="piatti">🍽️ Piatti tipici</button>
+    <button class="tab" data-tab="ristoranti">🍴 Ristoranti & caffè</button>
+    <button class="tab" data-tab="vedere">🏛️ Da vedere</button>
+    <button class="tab" data-tab="spiagge">🏖️ Bagni & laghi</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ===================== MAPPA ===================== -->
+  <section class="panel active" id="panel-mappa">
+    <div id="setupBox"></div>
+    <div class="panel-head">
+      <h2>La mappa del viaggio</h2>
+      <p>Tutti i posti della guida in un colpo d'occhio. Tocca un pin: si apre l'anteprima, e da lì <b>“📋 Espandi scheda”</b> apre tutte le info — foto, valutazione, recensioni, orari e i <b>piatti tipici da provare lì</b> — restando sulla mappa. La 🏡 è la base di Bålsta.</p>
+    </div>
+    <div class="map-tools">
+      <div class="legend" id="legend">
+        <span class="lg" data-grp="food"><span class="dot" style="background:#c0563b"></span>Mangiare & caffè</span>
+        <span class="lg" data-grp="see"><span class="dot" style="background:#7a4ea0"></span>Da vedere</span>
+        <span class="lg" data-grp="beach"><span class="dot" style="background:#1b8a9a"></span>Bagni & laghi</span>
+      </div>
+    </div>
+    <div id="map"></div>
+    <div id="mapFallback">
+      <h3 style="margin:0 0 6px">🗺️ Mappa non attiva</h3>
+      <p style="margin:0;color:var(--muted)">Aggiungi la chiave Google (istruzioni qui sopra) per vedere la mappa interattiva con tutti i pin.<br>Nel frattempo ogni scheda ha comunque il pulsante <b>“Apri su Google Maps”</b>.</p>
+    </div>
+    <p class="map-note">Suggerimento: i tempi “~min in auto” sono stime dalla base; il pulsante <b>Indicazioni</b> in ogni scheda apre il percorso reale su Google Maps. Per Stoccolma e Uppsala conviene anche il treno pendolare (pendeltåg) dalla stazione di Bålsta.</p>
+  </section>
+
+  <!-- ===================== PIATTI ===================== -->
+  <section class="panel" id="panel-piatti">
+    <div class="panel-head">
+      <h2>Piatti & sapori di Svezia</h2>
+      <p>Cosa si mangia da queste parti, dalla husmanskost di casa alla fika con i dolci. Tocca i locali in blu per saltare alla loro scheda nel tab Ristoranti.</p>
+    </div>
+    <div class="searchrow">
+      <input type="search" id="search-piatti" placeholder="Cerca un piatto… (es. granita, tonno, cioccolato)">
+      <div id="filter-piatti" class="filters"></div>
+    </div>
+    <p class="count" id="count-piatti"></p>
+    <div class="grid" id="grid-piatti"></div>
+  </section>
+
+  <!-- ===================== RISTORANTI ===================== -->
+  <section class="panel" id="panel-ristoranti">
+    <div class="panel-head">
+      <h2>Ristoranti, krog & caffè</h2>
+      <p>Dove vanno i local, dalla base verso Sigtuna, Uppsala e Stoccolma. Orari, telefono, recensioni e foto arrivano in diretta da Google; <b>Indicazioni</b> calcola il percorso dalla base. Filtra per ⭐ Top, 🍴 Verace o ✨ Posto carino.</p>
+    </div>
+    <div class="searchrow">
+      <input type="search" id="search-ristoranti" placeholder="Cerca un locale o un piatto…">
+      <div id="filter-ristoranti" class="filters"></div>
+    </div>
+    <div id="badgefilter-ristoranti" class="badgefilters"></div>
+    <p class="count" id="count-ristoranti"></p>
+    <div class="grid" id="grid-ristoranti"></div>
+  </section>
+
+  <!-- ===================== VEDERE ===================== -->
+  <section class="panel" id="panel-vedere">
+    <div class="panel-head">
+      <h2>Cose belle da vedere</h2>
+      <p>Castelli sul Mälaren, città vecchie, siti vichinghi, chiese, musei e natura tra Bålsta, Sigtuna, Uppsala, Stoccolma e l'Uppland.</p>
+    </div>
+    <div class="searchrow">
+      <input type="search" id="search-vedere" placeholder="Cerca un luogo o una città…">
+      <div id="filter-vedere" class="filters"></div>
+    </div>
+    <p class="count" id="count-vedere"></p>
+    <div class="grid" id="grid-vedere"></div>
+  </section>
+
+  <!-- ===================== SPIAGGE ===================== -->
+  <section class="panel" id="panel-spiagge">
+    <div class="panel-head">
+      <h2>Bagni & laghi</h2>
+      <p>Spiagge e bagni (<i>badplats</i>) sul lago Mälaren e nei laghi vicini, dalla base verso Sigtuna, Enköping e Uppsala. D'estate l'acqua è fresca ma piacevole; quasi tutti i bagni sono liberi.</p>
+    </div>
+    <div class="searchrow">
+      <input type="search" id="search-spiagge" placeholder="Cerca un bagno o una zona…">
+      <div id="filter-spiagge" class="filters"></div>
+    </div>
+    <p class="count" id="count-spiagge"></p>
+    <div class="grid" id="grid-spiagge"></div>
+  </section>
+
+  <!-- ===================== ITINERARI ===================== -->
+  <section class="panel" id="panel-itinerari">
+    <div class="panel-head">
+      <h2>Itinerari giornalieri</h2>
+      <p>Giornate complete con partenza e rientro alla <b>base di Bålsta</b>: visita la mattina, pranzo, nel pomeriggio un castello o un bagno al lago, cena. Ogni tappa è cliccabile. I tempi in auto sono stime porta a porta (per Stoccolma c'è anche il pendeltåg dalla stazione di Bålsta).</p>
+    </div>
+    <div id="filter-itinerari" class="filters"></div>
+    <div class="grid itin-grid" id="grid-itinerari"></div>
+  </section>
+
+</main>
+
+<footer>
+  <p><b>Bålsta &amp; Mälaren — Guida personale.</b> Dati su locali, luoghi, castelli e bagni raccolti e verificati da fonti pubbliche (siti ufficiali, Visit Sweden/Visit Sigtuna, Wikipedia/Wikidata, comuni di Håbo, Enköping, Sigtuna, Uppsala). Foto, recensioni, orari e numeri di telefono nelle schede arrivano in tempo reale dalle Google Places API: per natura possono cambiare, verifica sempre prima di partire o prenotare. Le stime “min in auto” dalla base sono indicative. Le foto dei piatti vengono da Wikimedia Commons.</p>
+</footer>
+
+<!-- ============ DATA ============ -->
+<script>
+/* Tempi auto stimati dalla base: ogni voce porta il suo campo `min`. */
+const ZONE = {};
+
+/* ---------- RISTORANTI / KROG / CAFFÈ ---------- */
+const RESTAURANTS = [
+{id:'r1',vibe:'carino',near:true,name:'Krägga Mat & Vänner',q:'Krägga Mat & Vänner Bålsta',town:'Bålsta',min:4,type:'caffè',price:'€€',lat:59.60487,lng:17.40734,addr:'Grönlundsvägen 1a, 746 93 Bålsta, Sverige',spec:['Fika sul Mälaren','Pranzo','Torte'],desc:`Caffè e bistrò della tenuta Krägga, a un passo dalla base sulla riva del Mälaren: il posto più vicino dove fare colazione o una fika con vista sull'acqua.`},
+{id:'r2',top:true,vibe:'verace',near:true,name:'Pino\'s Möten & Mat',q:'Pino\'s Möten & Mat Grillby',town:'Grillby',min:10,type:'ristorante',price:'€€',lat:59.62528,lng:17.25611,addr:'Esplanaden 2, 749 52 Grillby, Sverige',spec:['Cucina italiana','Pizza','Menù del giorno'],desc:`A Grillby, pochi minuti dalla base: trattoria italiana a conduzione familiare molto amata in zona, atmosfera calorosa e porzioni serie.`},
+{id:'r3',near:true,name:'Paprika Restaurant',q:'Paprika Restaurant Bålsta',town:'Bålsta',min:10,type:'indiano',price:'€€',lat:59.58063,lng:17.50982,addr:'Enköpingsvägen 8E, 746 52 Bålsta, Sverige',spec:['Cucina indiana','Curry','Tandoori'],desc:`Il punto di riferimento per l'indiano vicino a Bålsta: piatti speziati al punto giusto, di quelli per cui vale la deviazione tornando da Stoccolma.`},
+{id:'r4',vibe:'verace',near:true,name:'Elektra Taverna',q:'Elektra Taverna Bålsta',town:'Bålsta',min:11,type:'greco',price:'€€',lat:59.57668,lng:17.51298,addr:'Stockholmsvägen 16, 746 33 Bålsta, Sverige',spec:['Cucina greca','Souvlaki','Meze'],desc:`Taverna greca familiare a Bålsta, sale pulite e cucina saporita: il classico da feriale, dove mangiano i bålstabo.`},
+{id:'r5',near:true,name:'Lucky House',q:'Lucky House Bålsta',town:'Bålsta',min:11,type:'asiatico',price:'€€',lat:59.57552,lng:17.51547,addr:'Stockholmsvägen 28, 746 33 Bålsta, Sverige',spec:['Cucina cinese','Wok','Buffet'],desc:`Il cinese storico di Bålsta (oltre 670 recensioni): piatti freschi e menù per tutti i gusti, una certezza del paese da anni.`},
+{id:'r6',top:true,vibe:'verace',near:true,name:'Schillströms hantverksbageri',q:'Schillströms hantverksbageri Bålsta',town:'Bålsta',min:11,type:'panificio',price:'',lat:59.57491,lng:17.51615,addr:'Stockholmsvägen 32, 746 33 Bålsta, Sverige',spec:['Pane artigianale','Colazione','Dolci'],desc:`Panetteria artigianale di Bålsta diventata il punto d'incontro del mattino: pane vero e colazione, personale che fa la differenza (4,9 su Google).`},
+{id:'r7',vibe:'verace',near:true,name:'Pizzeria Mozzarella Bålsta',q:'Pizzeria Mozzarella Bålsta Bålsta',town:'Bålsta',min:14,type:'pizzeria',price:'€€',lat:59.56068,lng:17.54070,addr:'Dyarnevägen 3, 746 31 Bålsta, Sverige',spec:['Pizza','Kebab','Asporto'],desc:`La pizzeria-istituzione di Bålsta, quasi 1.200 recensioni: una di quelle perle locali che tengono la qualità alta e costante. Pranzo o cena sul sicuro.`},
+{id:'r8',vibe:'carino',near:true,name:'White Cockatoo Coffee Roastery AB',q:'White Cockatoo Coffee Roastery AB Bålsta',town:'Bålsta',min:15,type:'caffè',price:'',lat:59.56362,lng:17.55891,addr:'Mjödvägen 6, lokal 5a, 746 50 Bålsta, Sverige',spec:['Caffè specialty','Tostatura propria'],desc:`Torrefazione artigianale vicino a Bålsta: caffè di qualità e, se capita, il giro a vedere come tostano. Per chi il caffè lo prende sul serio.`},
+{id:'r9',vibe:'verace',near:true,name:'Pizzeria Amore (i Örsundsbro)',q:'Pizzeria Amore (i Örsundsbro) Örsundsbro',town:'Örsundsbro',min:18,type:'pizzeria',price:'€',lat:59.72548,lng:17.29152,addr:'Torslundavägen 2 vid bensinmacken Q-star, 749 60 Örsundsbro, Sverige',spec:['Pizza','Impasto curato','Asporto'],desc:`A Örsundsbro: per molti una delle pizze migliori mai mangiate, impasto ben cotto e condimenti abbondanti. Accoglienza calorosa.`},
+{id:'r10',vibe:'carino',name:'Gula villan i Örsundsbro',q:'Gula villan i Örsundsbro Örsundsbro',town:'Örsundsbro',min:19,type:'caffè',price:'',lat:59.73415,lng:17.30998,addr:'Bangårdsvägen 4, 749 60 Örsundsbro, Sverige',spec:['Fika','Torte fatte in casa','Brunch'],desc:`Una villetta gialla a Örsundsbro trasformata in caffè: ambienti arieggiati e angoli accoglienti, fika fatta come si deve.`},
+{id:'r11',vibe:'carino',name:'Salnecke Slottscafé och Bistro',q:'Salnecke Slottscafé och Bistro Örsundsbro',town:'Örsundsbro',min:19,type:'ristorante',price:'€€',lat:59.73950,lng:17.33709,addr:'11, Salnecke, 749 63 Örsundsbro, Sverige',spec:['Pranzo al castello','Smörgås','Torte'],desc:`Caffè-bistrò nel parco del castello di Salnecke, sul Mälaren: insalate, panini di gamberetti e schnitzel in una cornice di campagna signorile.`},
+{id:'r12',vibe:'verace',name:'Bro Park Krog',q:'Bro Park Krog Bro',town:'Bro',min:17,type:'husmanskost',price:'€€',lat:59.52458,lng:17.61179,addr:'Bro-önsta Önsta 1, 197 93 Bro, Sverige',spec:['Husmanskost','Pane fatto in casa','Pranzo'],desc:`Krog all'ippodromo di Bro: cucina casalinga svedese ben fatta, porzioni giuste e pane caldo fatto in casa. Genuino e senza fronzoli.`},
+{id:'r13',vibe:'verace',name:'Drottningens',q:'Drottningens Enköping',town:'Enköping',min:18,type:'pizzeria',price:'€€',lat:59.64329,lng:17.08672,addr:'Drottninggatan 3, 745 34 Enköping, Sverige',spec:['Pizza','Kebab','Asporto'],desc:`A Enköping: per i clienti affezionati semplicemente una delle migliori pizzerie del paese. Locale di quartiere senza pretese, pizza fatta bene.`},
+{id:'r14',top:true,name:'GMG sushi',q:'GMG sushi Bro',town:'Bro',min:18,type:'sushi',price:'',lat:59.50455,lng:17.61366,addr:'Sparres väg 3, 197 33 Bro, Sverige',spec:['Sushi','Poke','Asporto'],desc:`Piccolo sushi a Bro con valutazione altissima: pesce fresco e bocconi curati, per cena o asporto vicino alla base.`},
+{id:'r15',top:true,vibe:'verace',name:'Grekiska grill & bar',q:'Grekiska grill & bar Enköping',town:'Enköping',min:19,type:'greco',price:'€€',lat:59.63446,lng:17.08120,addr:'Torggatan 16, 749 49 Enköping, Sverige',spec:['Grill greco','Buffet di insalate','Pranzo'],desc:`Grill greco di Enköping con un buffet di insalate che vale da solo la sosta: lunch generoso, il posto dove pranzano gli abitanti.`},
+{id:'r16',name:'Burgers & Beer',q:'Burgers & Beer Enköping',town:'Enköping',min:19,type:'hamburger',price:'',lat:59.63640,lng:17.08025,addr:'Kungsgatan 14, 745 31 Enköping, Sverige',spec:['Hamburger','Birre','Patatine'],desc:`Il burger preferito di Enköping: panino morbido e succoso, birre alla spina, atmosfera informale.`},
+{id:'r17',vibe:'carino',name:'Bombance AB',q:'Bombance AB Enköping',town:'Enköping',min:19,type:'ristorante',price:'€€',lat:59.63477,lng:17.07790,addr:'Kungsgatan 27, 749 35 Enköping, Sverige',spec:['Cucina francese','Bistrò','Cena'],desc:`A Enköping, l'indirizzo per una cena con un tocco francese: bistrò curato, il più ricercato in centro.`},
+{id:'r18',vibe:'carino',name:'Fabian Flinks Brödbod',q:'Fabian Flinks Brödbod Enköping',town:'Enköping',min:19,type:'panificio',price:'€€',lat:59.63641,lng:17.07719,addr:'Torggatan 28, 745 31 Enköping, Sverige',spec:['Bakery','Pasticceria','Caffè'],desc:`Forno-pasticceria molto popolare a Enköping: bancone goloso e tavolini, sempre pieno. Arriva presto per i pezzi del giorno.`},
+{id:'r19',top:true,vibe:'verace',name:'Brogrillen',q:'Brogrillen Bro',town:'Bro',min:19,type:'husmanskost',price:'€€',lat:59.51582,lng:17.64267,addr:'Bro Centrum 31, 197 30 Bro, Sverige',spec:['Grill','Husmanskost','Hamburger'],desc:`Il gatto-grill di Bro (4,6 su oltre 1.000 recensioni): roadside grill alla svedese, mysig e cordiale, porzioni abbondanti. Un'istituzione di paese.`},
+{id:'r20',top:true,vibe:'verace',name:'Skuggans café',q:'Skuggans café Enköping',town:'Enköping',min:19,type:'caffè',price:'',lat:59.71544,lng:17.13731,addr:'Långtora 11, 745 96 Enköping, Sverige',spec:['Räksmörgås','Fika','Torte'],desc:`Caffè amatissimo di Enköping (4,8): celebre per il panino ai gamberetti, ambiente accogliente. È così gettonato che spesso è pieno.`},
+{id:'r21',top:true,vibe:'carino',name:'Floristhörnan',q:'Floristhörnan Bro',town:'Bro',min:19,type:'caffè',price:'€€',lat:59.51022,lng:17.64090,addr:'Stationsvägen 41, 197 30 Bro, Sverige',spec:['Fika','Fiori e caffè','Dolci'],desc:`Caffè-fioreria a Bro: un angolo curato e cordiale dove fare una fika tranquilla.`},
+{id:'r22',top:true,vibe:'carino',name:'Båthuset Krog & Bar',q:'Båthuset Krog & Bar Sigtuna',town:'Sigtuna',min:19,type:'ristorante',price:'€€',lat:59.61288,lng:17.71692,addr:'Hamngatan 2, 193 30 Sigtuna, Sverige',spec:['Cucina di mare','Vista lago','Cena'],desc:`La 'casa-barca' sul lungolago di Sigtuna: cucina ottima e accoglienza calda in una sala intima sull'acqua. Tra i migliori della cittadina.`},
+{id:'r23',top:true,name:'Paco´s Sigtuna',q:'Paco´s Sigtuna Sigtuna',town:'Sigtuna',min:19,type:'tex-mex',price:'',lat:59.62234,lng:17.71869,addr:'Stora Brännbovägen 31, 193 33 Sigtuna, Sverige',spec:['Tex-mex','Tacos','Margarita'],desc:`Tex-mex di Sigtuna con personale alla mano: porzioni giuste, buon prezzo, perfetto in famiglia dopo la passeggiata nel centro vecchio.`},
+{id:'r24',top:true,name:'Saby Jai Thaimat & Sushi',q:'Saby Jai Thaimat & Sushi Enköping',town:'Enköping',min:19,type:'asiatico',price:'€€',lat:59.64272,lng:17.06930,addr:'Enöglavägen 20A, 745 32 Enköping, Sverige',spec:['Cucina thai','Sushi','Pranzo'],desc:`A Enköping: thai e sushi con personale gentile, flessibili sulle richieste. Affidabile per un pranzo veloce.`},
+{id:'r25',top:true,name:'Sigtuna Gelato',q:'Sigtuna Gelato Sigtuna',town:'Sigtuna',min:20,type:'gelateria',price:'€€',lat:59.61613,lng:17.72067,addr:'Stora Gatan 50, 193 30 Sigtuna, Sverige',spec:['Gelato artigianale','Coni','Coppe'],desc:`Gelateria nel cuore di Sigtuna: gelato cremoso e personale che fa quel qualcosa in più. Tappa d'obbligo nella via principale.`},
+{id:'r26',vibe:'verace',name:'Tant Bruns Kaffestuga i Sigtuna',q:'Tant Bruns Kaffestuga i Sigtuna Sigtuna',town:'Sigtuna',min:20,type:'caffè',price:'€€',lat:59.61620,lng:17.72135,addr:'Laurentii gränd 3, 193 30 Sigtuna, Sverige',spec:['Fika storica','Soffitti bassi','Torte'],desc:`La 'kaffestuga' di Zia Bruna a Sigtuna, in una casa con i soffitti bassi e l'arredo d'altri tempi: una delle fike più caratteristiche della zona. Spesso piena.`},
+{id:'r27',vibe:'carino',name:'Bistro & Café Valvet',q:'Bistro & Café Valvet Sigtuna',town:'Sigtuna',min:20,type:'ristorante',price:'€€',lat:59.61701,lng:17.72263,addr:'Stora Gatan 40c, 193 30 Sigtuna, Sverige',spec:['Bistrò','Insalate','Atmosfera'],desc:`A Sigtuna: bistrò dall'atmosfera bella e piatti che convincono, dall'insalata Caesar in giù. Comodo nella via dello struscio.`},
+{id:'r28',name:'Restaurang Kopparkitteln',q:'Restaurang Kopparkitteln Sigtuna',town:'Sigtuna',min:20,type:'ristorante',price:'€€',lat:59.61673,lng:17.72213,addr:'Stora Gatan 31, 193 30 Sigtuna, Sverige',spec:['Husmanskost','Pranzo','Toast Skagen'],desc:`Ristorante classico di Sigtuna: cucina corretta e posizione comoda nel centro storico, buono per un pranzo senza pensieri.`},
+{id:'r29',vibe:'carino',name:'Farbror Blå',q:'Farbror Blå Sigtuna',town:'Sigtuna',min:20,type:'ristorante',price:'€€',lat:59.61703,lng:17.72188,addr:'Stora Gatan 4d, 193 30 Sigtuna, Sverige',spec:['Cucina di mare','Skaldjursmacka','Menù 3 portate'],desc:`A Sigtuna, materie prime curate e un panino ai frutti di mare da fuoriclasse: indirizzo da cena un po' speciale nel borgo.`},
+{id:'r30',top:true,vibe:'verace',name:'Pelle och Maries brödbutik',q:'Pelle och Maries brödbutik Sigtuna',town:'Sigtuna',min:20,type:'panificio',price:'',lat:59.61688,lng:17.72275,addr:'Stora Gatan 29, 193 31 Sigtuna, Sverige',spec:['Pane','Bakverk','Sourdough'],desc:`Panificio di Sigtuna gestito da proprietari simpaticissimi (4,9): pane e dolci di ogni tipo, profumo che si sente dalla strada.`},
+{id:'r31',vibe:'carino',name:'Cicciotto',q:'Cicciotto Sigtuna',town:'Sigtuna',min:20,type:'ristorante',price:'€€',lat:59.61723,lng:17.72516,addr:'Stora Gatan 34, 193 35 Sigtuna, Sverige',spec:['Cucina italiana','Pizza','Gastronomia'],desc:`Italiano di Sigtuna con anche una bottega di delizie: bell'ambiente, pizza e taglieri. Piace alle famiglie.`},
+{id:'r32',vibe:'carino',name:'Steninge Bruk',q:'Steninge Bruk Märsta',town:'Märsta',min:24,type:'caffè',price:'€€',lat:59.60519,lng:17.80043,addr:'Steninge Slottsväg 141, 195 59 Märsta, Sverige',spec:['Caffè','Brunch','Bottega'],desc:`Caffè e bottega accanto al castello di Steninge, sul Mälaren: comodo abbinato alla visita al palazzo e ai laboratori del vetro.`},
+{id:'r33',top:true,name:'KI japansk restaurang',q:'KI japansk restaurang Rosersberg',town:'Rosersberg',min:30,type:'sushi',price:'€€',lat:59.57666,lng:17.89282,addr:'Göran Hammarsjös väg 8E, 195 72 Rosersberg, Sverige',spec:['Sushi','Cucina giapponese','Asporto'],desc:`Giapponese di Rosersberg con valutazione molto alta (4,8): sushi curato vicino al castello, sulla strada tra la base e l'aeroporto di Arlanda.`},
+{id:'r34',top:true,vibe:'carino',name:'Juntras Grönt',q:'Juntras Grönt Färentuna',town:'Färentuna',min:31,type:'ristorante',price:'€€',lat:59.38561,lng:17.63728,addr:'Sätunavägen 16, 179 97 Färentuna, Sverige',spec:['Cucina thai','Vivaio','Pranzo nel verde'],desc:`Sull'isola di Ekerö, vivaio e ristorante insieme: thai genuino tra piante e fiori, posto rilassato e un po' fuori mano (4,7).`},
+{id:'r35',vibe:'verace',name:'Konditori Fågelsången',q:'Konditori Fågelsången Uppsala',town:'Uppsala',min:32,type:'caffè',price:'€€',lat:59.85466,lng:17.63958,addr:'Munkgatan 3, C, 753 09 Uppsala, Sverige',spec:['Konditori','Fika','Torte classiche'],desc:`Pasticceria-caffè di Uppsala dove ti senti a casa: charme d'altri tempi e clienti affezionati da anni. La fika rilassata per eccellenza.`},
+{id:'r36',vibe:'verace',name:'Güntherska Hovkonditori & Schweizeri',q:'Güntherska Hovkonditori & Schweizeri Uppsala',town:'Uppsala',min:32,type:'caffè',price:'€€',lat:59.85790,lng:17.63817,addr:'Östra Ågatan 31, 753 22 Uppsala, Sverige',spec:['Hovkonditori','Semla','Cioccolata'],desc:`Storico 'hovkonditori' di Uppsala, premiato per la sua semla: pasticceria classica svedese nel centro pedonale, una tappa golosa fra Duomo e fiume.`},
+{id:'r37',top:true,vibe:'carino',name:'Hambergs',q:'Hambergs Uppsala',town:'Uppsala',min:32,type:'pesce',price:'€€€',lat:59.85806,lng:17.63615,addr:'Fyristorg 8, 753 10 Uppsala, Sverige',spec:['Ostriche','Pesce e crostacei','Plateau'],desc:`A Uppsala, l'indirizzo per ostriche e plateau di mare in un ambiente rilassato: servizio e sapori di livello (4,6 su oltre 1.100 recensioni).`},
+{id:'r38',top:true,name:'Negai Restaurang - City',q:'Negai Restaurang - City Uppsala',town:'Uppsala',min:32,type:'sushi',price:'€€',lat:59.85956,lng:17.64086,addr:'Vaksalagatan 10, 753 20 Uppsala, Sverige',spec:['Sushi','Cucina giapponese','Prezzo giusto'],desc:`Sushi di Uppsala molto amato (4,8): buon rapporto qualità-prezzo e accoglienza calorosa nel centro città.`},
+{id:'r39',top:true,name:'Bageri Brantingstorg',q:'Bageri Brantingstorg Uppsala',town:'Uppsala',min:34,type:'caffè',price:'€€',lat:59.86826,lng:17.66963,addr:'Brantingstorget 1, 754 34 Uppsala, Sverige',spec:['Bakery','Fika','Pane'],desc:`Forno-caffè in piazza Brantingstorg a Uppsala: fika buona e personale che tiene ai clienti, comodo per una sosta in giro per la città.`},
+{id:'r40',top:true,name:'Mirai Sushi & Ramen',q:'Mirai Sushi & Ramen Uppsala',town:'Uppsala',min:34,type:'sushi',price:'€€',lat:59.87588,lng:17.65540,addr:'Råbyvägen 61A, 754 29 Uppsala, Sverige',spec:['Sushi','Ramen','Pranzo'],desc:`A Uppsala: ambiente pulito e cucina a vista, sushi e ramen serviti in fretta. Affidabile per il pranzo.`},
+{id:'r41',vibe:'verace',name:'Pizzeria Järfälla',q:'Pizzeria Järfälla Järfälla',town:'Järfälla',min:35,type:'pizzeria',price:'€€',lat:59.41807,lng:17.83546,addr:'Vasavägen 41, 177 52 Järfälla, Sverige',spec:['Pizza','Kebab','Asporto'],desc:`Per i locali la pizzeria migliore di Jakobsberg: qualità costante e personale gentile, sulla strada verso Stoccolma.`},
+{id:'r42',top:true,vibe:'verace',name:'Sticky Rice Sollentuna',q:'Sticky Rice Sollentuna Sollentuna',town:'Sollentuna',min:40,type:'asiatico',price:'€',lat:59.42334,lng:17.95422,addr:'Sollentunavägen 137, 191 44 Sollentuna, Sverige',spec:['Cucina thai','Pad thai','Buffet'],desc:`A Sollentuna, thai genuino e fresco molto amato (4,7 su oltre 1.300 recensioni): pad thai fatto bene, buffet a pranzo.`},
+{id:'r43',vibe:'carino',name:'Rakstugan Kök och Bar',q:'Rakstugan Kök och Bar Mariefred',town:'Mariefred',min:43,type:'ristorante',price:'€€',lat:59.25960,lng:17.22133,addr:'Munkhagsgatan 10 A, 647 30 Mariefred, Sverige',spec:['Smörrebröd','Bistrò','Cena'],desc:`Cucina e bar a Mariefred: il loro smörrebröd è la cosa da prendere. Bistrò informale nel borgo del castello di Gripsholm.`},
+{id:'r44',vibe:'verace',name:'Alba i Mariefred',q:'Alba i Mariefred Mariefred',town:'Mariefred',min:43,type:'ristorante',price:'€€',lat:59.25933,lng:17.21897,addr:'Storgatan 16, 647 30 Mariefred, Sverige',spec:['Cucina di casa','Bouillabaisse','Porzioni generose'],desc:`A Mariefred: porzioni serie e piatti 'cucinati con amore', dalla bouillabaisse al toast con tzatziki. Genuino e accogliente.`},
+{id:'r45',vibe:'verace',name:'Taxinge Slottscafé',q:'Taxinge Slottscafé Nykvarn',town:'Nykvarn',min:43,type:'caffè',price:'€€',lat:59.24650,lng:17.30993,addr:'NÄSBY 52, 155 93 Nykvarn, Sverige',spec:['Torte (60+ tipi)','Caffè del castello','Buffet'],desc:`Il 'castello delle torte' di Taxinge: famoso per il buffet di dolci con decine di varietà fatte in casa. Una gita golosa sul Mälaren, a sud del lago.`},
+{id:'r46',vibe:'carino',name:'Taxinge Krog',q:'Taxinge Krog Nykvarn',town:'Nykvarn',min:44,type:'ristorante',price:'',lat:59.24087,lng:17.30315,addr:'NÄSBY 22, 155 93 Nykvarn, Sverige',spec:['Menù degustazione','Vegetariano','Solo 12 coperti'],desc:`Accanto al castello di Taxinge: appena 12 posti a un grande tavolo, prenotazione obbligatoria. D'estate un menù tutto vegetariano sorprendente.`},
+{id:'r47',top:true,vibe:'verace',name:'Kafé Klavér',q:'Kafé Klavér Mariefred',town:'Mariefred',min:44,type:'caffè',price:'€€',lat:59.24417,lng:17.23963,addr:'Hedlandet Ekbacka 1, 647 92 Mariefred, Sverige',spec:['Fika','Zuppa di lenticchie','Torte'],desc:`A Mariefred, caffè di gran cuore (4,7): cucina semplice ma azzeccatissima, dalla zuppa di lenticchie ai dolci. I proprietari accolgono come a casa.`},
+{id:'r48',name:'Emma Grön',q:'Emma Grön Strängnäs',town:'Strängnäs',min:47,type:'ristorante',price:'€€',lat:59.27306,lng:16.97216,addr:'Byringevägen, 645 91 Strängnäs, Sverige',spec:['Pranzo','Pollo','Caffè incluso'],desc:`A Strängnäs: pollo e patate fatti benissimo in una saletta minuscola e accogliente, caffè incluso. Piccolo, conviene arrivare presto.`},
+{id:'r49',top:true,vibe:'carino',name:'Mazati KÖK & BAR',q:'Mazati KÖK & BAR Solna',town:'Solna',min:48,type:'mediorientale',price:'€€',lat:59.36314,lng:18.02093,addr:'Råsundavägen 11, 169 67 Solna, Sverige',spec:['Cucina libanese','Meze','Grill'],desc:`Libanese di Solna molto ben giudicato (4,7): meze e griglia in un ambiente curato, sulla strada verso Stoccolma da nord.`},
+{id:'r50',top:true,vibe:'verace',name:'Gelato Scarfó',q:'Gelato Scarfó Bromma',town:'Bromma',min:48,type:'gelateria',price:'€€',lat:59.32406,lng:17.95657,addr:'Ålstensgatan 12, 167 65 Bromma, Sverige',spec:['Gelato artigianale','Creme','Frutta'],desc:`A Bromma, per molti il gelato migliore di tutta Stoccolma: cremoso e saporito, di quelli per cui si torna apposta (4,7 su quasi 2.000 recensioni).`},
+{id:'r51',name:'Marin Kolgrill Malmaberg',q:'Marin Kolgrill Malmaberg Västerås',town:'Västerås',min:48,type:'mediorientale',price:'€€',lat:59.62665,lng:16.58301,addr:'Gunnilbogatan 2, 723 40 Västerås, Sverige',spec:['Grill','Cucina turca','Kebab'],desc:`A Västerås: grill mediorientale accogliente, ben accolto da chi passa. Carne alla brace e porzioni giuste.`},
+{id:'r52',vibe:'carino',name:'Kajplats 9',q:'Kajplats 9 Västerås',town:'Västerås',min:50,type:'ristorante',price:'€€€',lat:59.60389,lng:16.55010,addr:'Sjötullsgatan 2, 722 10 Västerås, Sverige',spec:['Vista porto','Räkmacka','Cena'],desc:`Sul porto di Västerås: cucina molto buona con vista sull'acqua, dal panino ai gamberetti in su. Bello al tramonto.`},
+{id:'r53',top:true,vibe:'verace',name:'Lillebrors bageri',q:'Lillebrors bageri Stockholm',town:'Stockholm',min:50,type:'panificio',price:'€€',lat:59.34004,lng:18.03423,addr:'Rörstrandsgatan 10, 113 40 Stockholm, Sverige',spec:['Bakery','Kanelbulle','Pane'],desc:`Forno cult di Stoccolma (Vasastan): quasi sempre c'è la coda, ma scorre in fretta e ne vale la pena. Atmosfera semplice e schietta (4,8).`},
+{id:'r54',vibe:'carino',name:'MR CAKE',q:'MR CAKE Stockholm',town:'Stockholm',min:51,type:'caffè',price:'€€€',lat:59.34342,lng:18.06899,addr:'Rådmansgatan 12, 114 25 Stockholm, Sverige',spec:['Pancake','Dolci americani','Brunch'],desc:`Konditori di Stoccolma per i golosi: pancake e dolci generosi, anche piatti salati. Sempre affollato, molto instagrammabile.`},
+{id:'r55',vibe:'verace',name:'Vete-Katten Kungsgatan',q:'Vete-Katten Kungsgatan Stockholm',town:'Stockholm',min:52,type:'caffè',price:'€€',lat:59.33420,lng:18.05860,addr:'Kungsgatan 55, 111 22 Stockholm, Sverige',spec:['Konditori storico','Semla','Afternoon tea'],desc:`Il caffè anni '20 più amato di Stoccolma, dal 1928: vetrine di dolci da provare tutti, sale eleganti e un cortile nascosto. Una fika d'altri tempi.`},
+{id:'r56',top:true,vibe:'verace',name:'Restaurang Kajsas Fisk',q:'Restaurang Kajsas Fisk Stockholm',town:'Stockholm',min:52,type:'pesce',price:'€€',lat:59.33441,lng:18.06232,addr:'Hötorgshallen 3, 111 57 Stockholm, Sverige',spec:['Zuppa di pesce','Fritto di pesce','Mercato'],desc:`Nel mercato coperto di Hötorget a Stoccolma: la zuppa di pesce con bis incluso è leggendaria. Materia prima e mano sicura, niente fronzoli (4,6).`},
+{id:'r57',top:true,vibe:'carino',name:'Restaurang Hantverket',q:'Restaurang Hantverket Stockholm',town:'Stockholm',min:52,type:'ristorante',price:'€€€',lat:59.34146,lng:18.07676,addr:'Sturegatan 15a, 114 36 Stockholm, Sverige',spec:['Cucina nordica','Piccoli piatti','Carta dei vini'],desc:`A Stoccolma (Östermalm), cucina svedese 'con un guizzo' in un ambiente industriale elegante: piccoli piatti da condividere e bella carta dei vini.`},
+{id:'r58',vibe:'carino',name:'Långbro Värdshus',q:'Långbro Värdshus Älvsjö',town:'Älvsjö',min:52,type:'ristorante',price:'€€€',lat:59.28283,lng:17.97083,addr:'Stora Mans Väg 4, 125 59 Älvsjö, Sverige',spec:['Värdshus','Husmanskost di lusso','Giardino'],desc:`Locanda storica nel verde a sud di Stoccolma: husmanskost curata in una villa di fine '800, dal pranzo al julbord. Cornice rilassante.`},
+{id:'r59',top:true,name:'KL PIZZERIA Hammarby #1',q:'KL PIZZERIA Hammarby #1 Västerås',town:'Västerås',min:52,type:'pizzeria',price:'',lat:59.60278,lng:16.51306,addr:'Hammarbacksvägen 18, 724 67 Västerås, Sverige',spec:['Pizza','Impasto napoletano','Asporto'],desc:`A Västerås: pizzeria scovata per il voto altissimo (4,9) e promossa a pieni voti. Vale la prova se si è da quelle parti.`},
+{id:'r60',vibe:'carino',name:'Östermalms Saluhall',q:'Östermalms Saluhall Stockholm',town:'Stockholm',min:52,type:'caffè',price:'€€€',lat:59.33600,lng:18.07800,addr:'Östermalmstorg, 114 39 Stockholm, Sverige',spec:['Mercato gastronomico','Frutti di mare','Caffè'],desc:`Il mercato coperto gourmet di Stoccolma, dal 1888: pesce, salumi, formaggi e diversi banchi-ristoro sotto una bella struttura in mattoni e legno.`},
+{id:'r61',name:'Café Schweizer',q:'Café Schweizer Stockholm',town:'Stockholm',min:53,type:'caffè',price:'€€',lat:59.32610,lng:18.06885,addr:'Västerlånggatan 9, 111 29 Stockholm, Sverige',spec:['Fika','Torte','Pranzo'],desc:`Caffè molto amato in centro a Stoccolma: dolci e piatti curati, personale gentilissimo. Comodo tra una visita e l'altra.`},
+{id:'r62',top:true,vibe:'verace',name:'Stockholms Gästabud',q:'Stockholms Gästabud Stockholm',town:'Stockholm',min:53,type:'husmanskost',price:'€€',lat:59.32568,lng:18.07399,addr:'Österlånggatan 7, 111 31 Stockholm, Sverige',spec:['Husmanskost','Polpette','Sala storica'],desc:`Husmanskost rustica e autentica in una saletta accogliente di Stoccolma: il classico svedese fatto con cura, personale memorabile (4,7 su oltre 6.000).`},
+{id:'r63',top:true,vibe:'verace',name:'Restaurang Tradition',q:'Restaurang Tradition Stockholm',town:'Stockholm',min:53,type:'husmanskost',price:'€€',lat:59.32595,lng:18.07385,addr:'Österlånggatan 1, 113 53 Stockholm, Sverige',spec:['Husmanskost','Polpette','Salmone'],desc:`A Stoccolma, cucina tradizionale svedese in una sala semplice e ben tenuta: tartare di salmone, toast Skagen, polpette. Esattamente quello che promette il nome.`},
+{id:'r64',top:true,vibe:'carino',name:'Aifur Krog & Bar',q:'Aifur Krog & Bar Stockholm',town:'Stockholm',min:53,type:'ristorante',price:'€€€',lat:59.32312,lng:18.07183,addr:'Västerlånggatan 68b, 111 27 Stockholm, Sverige',spec:['Tema vichingo','Cene a tema','Idromele'],desc:`Krog a tema vichingo nella Gamla Stan: candele, panche di legno e atmosfera da banchetto medievale. Scenografico e turistico, ma si mangia davvero bene.`},
+{id:'r65',vibe:'verace',name:'Meatballs for the People',q:'Meatballs for the People Stockholm',town:'Stockholm',min:54,type:'husmanskost',price:'€€',lat:59.31460,lng:18.08126,addr:'Nytorgsgatan 30, 116 40 Stockholm, Sverige',spec:['Polpette (köttbullar)','Varianti','Birra'],desc:`A Södermalm, il tempio delle köttbullar: tante versioni delle polpette svedesi, dalle classiche alle insolite. Per molti le migliori della città.`},
+{id:'r66',vibe:'verace',name:'Restaurant Pelikan',q:'Restaurant Pelikan Stockholm',town:'Stockholm',min:54,type:'husmanskost',price:'€€',lat:59.31060,lng:18.07625,addr:'Blekingegatan 40, 116 62 Stockholm, Sverige',spec:['Birreria storica','Husmanskost','Aringa'],desc:`Storica birreria-ristorante di Södermalm con i soffitti decorati: husmanskost classica e tanta atmosfera. Il sapore della vecchia Stoccolma operaia.`},
+];
+
+/* ---------- PIATTI / SAPORI TIPICI ---------- */
+const DISHES = [
+{id:'d1',name:'Köttbullar',cat:'Secondo',emoji:'🍖',where:'Tutta la Svezia',tryAt:['Meatballs for the People','Stockholms Gästabud','Restaurang Tradition','Restaurant Pelikan','Bro Park Krog'],desc:`Le polpette svedesi: piccole, di carne mista, servite con purè di patate, salsa di panna, cetriolini e marmellata di mirtilli rossi. Il piatto-simbolo dell'husmanskost, la cucina di casa.`},
+{id:'d2',name:'Räkmacka',cat:'Antipasto',emoji:'🦐',where:'Mälardalen',tryAt:['Skuggans','Farbror Blå','Kajplats 9','Salnecke','Kopparkitteln'],desc:`Panino aperto stracolmo di gamberetti su uovo sodo, maionese, aneto e una fetta di limone. Sostanzioso, è un classico del pranzo svedese: nei caffè della zona è quasi un piatto unico.`},
+{id:'d3',name:'Toast Skagen',cat:'Antipasto',emoji:'🍤',where:'Tutta la Svezia',tryAt:['Restaurang Tradition','Kopparkitteln','Farbror Blå'],desc:`Crostone di pane abbrustolito con gamberetti in salsa di maionese e aneto, una punta di uova di lompo. Antipasto elegante inventato negli anni '50, ormai ovunque.`},
+{id:'d4',name:'Gravlax',cat:'Antipasto',emoji:'🐟',where:'Tutta la Svezia',tryAt:['Restaurang Tradition','Hambergs'],desc:`Salmone crudo marinato a secco con sale, zucchero e tanto aneto, servito a fettine con la salsa hovmästarsås alla senape. Delicato e dolce, sta sempre sul tavolo delle feste.`},
+{id:'d5',name:'Inlagd sill',cat:'Antipasto',emoji:'🐟',where:'Tutta la Svezia',tryAt:['Restaurant Pelikan','Stockholms Gästabud','Långbro Värdshus'],desc:`Aringa marinata in tante salse — senape, cipolla, aneto — sul pane scuro con patate lesse e formaggio stagionato. Il cuore del smörgåsbord, immancabile a Mezza Estate.`},
+{id:'d6',name:'Smörgåstårta',cat:'Tradizione',emoji:'🎂',where:'Tutta la Svezia',tryAt:[],desc:`La 'torta di tramezzini': strati di pane farciti con gamberetti, salmone o uova e prosciutto, ricoperti di maionese e decorati come un dolce. Da buffet di compleanno, salata.`},
+{id:'d7',name:'Kanelbulle',cat:'Dolce',emoji:'🥐',where:'Tutta la Svezia',tryAt:['Vete-Katten','Schillströms','Lillebrors','Pelle och Maries','Skuggans'],desc:`La girella alla cannella, regina della fika: pasta lievitata profumata di cardamomo, cannella e granella di zucchero in superficie. Ha persino la sua festa, il 4 ottobre.`},
+{id:'d8',name:'Kardemummabulle',cat:'Dolce',emoji:'🥐',where:'Tutta la Svezia',tryAt:['Lillebrors','Fabian Flinks','Brantingstorg'],desc:`La sorella al cardamomo del kanelbulle: più aromatica e leggermente pepata. Per molti svedesi è la versione migliore. Da inzuppare nel caffè.`},
+{id:'d9',name:'Prinsesstårta',cat:'Dolce',emoji:'🍰',where:'Tutta la Svezia',tryAt:['Vete-Katten','Güntherska','Fågelsången'],desc:`La 'torta della principessa': pan di spagna, crema pasticcera, panna e una cupola di marzapane verde con una rosellina. Dolce delle occasioni, inventato negli anni '30.`},
+{id:'d10',name:'Semla',cat:'Dolce',emoji:'🧁',where:'Inverno (fino a Pasqua)',tryAt:['Güntherska','Vete-Katten'],desc:`Bun al cardamomo riempito di pasta di mandorle e una nuvola di panna montata. Stagionale: si trova da gennaio a Pasqua, e i konditori fanno a gara per la migliore.`},
+{id:'d11',name:'Raggmunk',cat:'Secondo',emoji:'🥔',where:'Tutta la Svezia',tryAt:['Restaurang Tradition','Restaurant Pelikan','Stockholms Gästabud'],desc:`Frittelle di patate grattugiate cotte nel burro, servite con pancetta croccante e mirtilli rossi. Cucina contadina sostanziosa, classico del pranzo del giovedì in molte mense.`},
+{id:'d12',name:'Janssons frestelse',cat:'Tradizione',emoji:'🥘',where:'Natale',tryAt:['Långbro Värdshus','Restaurant Pelikan'],desc:`La 'tentazione di Jansson': gratin di patate a fiammifero con cipolla, panna e filetti di spratto sotto sale. Cremoso e saporito, non manca mai sul julbord natalizio.`},
+{id:'d13',name:'Ärtsoppa med pannkakor',cat:'Primo',emoji:'🥣',where:'Tutta la Svezia',tryAt:['Restaurant Pelikan','Stockholms Gästabud'],desc:`Zuppa densa di piselli secchi gialli con maiale, seguita da pancake con marmellata. Il pasto del giovedì per tradizione, dai tempi in cui ci si preparava al digiuno del venerdì.`},
+{id:'d14',name:'Pytt i panna',cat:'Secondo',emoji:'🍳',where:'Tutta la Svezia',tryAt:['Restaurang Tradition','Restaurant Pelikan'],desc:`Dadini di patate, carne e cipolla saltati in padella, coronati da un uovo all'occhio di bue e barbabietola in agrodolce. Piatto del riciclo, sostanzioso e amatissimo.`},
+{id:'d15',name:'Wallenbergare',cat:'Secondo',emoji:'🍖',where:'Tutta la Svezia',tryAt:['Restaurang Tradition','Restaurang Hantverket','Långbro Värdshus'],desc:`Polpetta nobile di vitello macinato finissimo con panna e tuorli, impanata e dorata nel burro, con purè, piselli e mirtilli. Comfort food da ristorante classico.`},
+{id:'d16',name:'Kroppkakor',cat:'Primo',emoji:'🥟',where:'Svezia centro-sud',tryAt:[],desc:`Grossi gnocchi di patate ripieni di pancetta e cipolla, serviti con burro e mirtilli rossi. Piatto rustico delle domeniche, pesante e confortante.`},
+{id:'d17',name:'Smörgåsbord / Julbord',cat:'Tradizione',emoji:'🍽️',where:'Feste',tryAt:['Långbro Värdshus','Restaurant Pelikan','Stockholms Gästabud'],desc:`Il grande buffet svedese: aringhe, salmone, polpette, prosciutto, paté e formaggi serviti a ondate, in un ordine preciso. La versione natalizia è il julbord, rito collettivo di dicembre.`},
+{id:'d18',name:'Knäckebröd',cat:'Prodotto',emoji:'🫓',where:'Tutta la Svezia',tryAt:[],desc:`Il pane croccante di segale, secco e duraturo, base della tavola svedese da secoli: si spalma di burro e si copre di formaggio o aringa. Ogni casa ne ha una scorta.`},
+{id:'d19',name:'Västerbottensost',cat:'Prodotto',emoji:'🧀',where:'Tutta la Svezia',tryAt:['Östermalms Saluhall'],desc:`Formaggio duro dal gusto intenso e granuloso, prodotto solo nel nord ma amato ovunque: protagonista della tortina salata (västerbottenpaj) della festa dei gamberi.`},
+{id:'d20',name:'Lingon & hjortron',cat:'Prodotto',emoji:'🫐',where:'Boschi nordici',tryAt:[],desc:`Mirtilli rossi (lingon) e camemori (hjortron): le bacche del bosco svedese. Il lingon, agro, accompagna quasi ogni piatto di carne; il raro hjortron dorato finisce su gelato e dolci.`},
+{id:'d21',name:'Kräftskiva',cat:'Tradizione',emoji:'🦞',where:'Agosto',tryAt:['Hambergs','Restaurang Kajsas Fisk'],desc:`Non un piatto ma una festa: a fine agosto si mangiano gamberi di fiume bolliti all'aneto, con cappellini di carta, canzoni e snaps. Tradizione estiva irrinunciabile.`},
+{id:'d22',name:'Surströmming',cat:'Prodotto',emoji:'🐟',where:'Agosto (nord)',tryAt:[],desc:`L'aringa baltica fermentata, famosa per l'odore fortissimo all'apertura della lattina: si mangia nel pane morbido (tunnbröd) con patate e cipolla. Sfida per stomaci forti, da provare all'aperto.`},
+{id:'d23',name:'Chokladboll',cat:'Dolce',emoji:'🍫',where:'Tutta la Svezia',tryAt:['Schillströms','Skuggans','Vete-Katten'],desc:`Pallina non cotta di avena, burro, zucchero, cacao e caffè, rotolata nel cocco o nella granella. Il dolcetto della fika che ogni bambino svedese impara a fare in casa.`},
+{id:'d24',name:'Fisksoppa',cat:'Primo',emoji:'🥣',where:'Costa e laghi',tryAt:['Restaurang Kajsas Fisk','Hambergs'],desc:`Zuppa di pesce cremosa con pesce e frutti di mare, profumata allo zafferano o all'aneto. Da Kajsas, nel mercato di Hötorget a Stoccolma, è quasi un'istituzione (bis incluso).`},
+];
+
+/* Foto reali dei PIATTI (non dei locali) — da Wikimedia Commons. */
+const DISH_IMG = {
+ d1:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/17-06-09-IKEA-K%C3%B6ttbullar-RalfR-IMG_20170609_182055_928a.jpg/960px-17-06-09-IKEA-K%C3%B6ttbullar-RalfR-IMG_20170609_182055_928a.jpg",
+ d2:"https://commons.wikimedia.org/wiki/Special:FilePath/Open%20Faced%20Shrimp%20Sandwich.jpg?width=900",
+ d3:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Toast_Skagen_at_Lucy_in_the_Sky.jpg/960px-Toast_Skagen_at_Lucy_in_the_Sky.jpg",
+ d4:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Gravad_Salmon_%2811833455895%29.jpg/960px-Gravad_Salmon_%2811833455895%29.jpg",
+ d5:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Midsummer_pickled_herring.jpg/960px-Midsummer_pickled_herring.jpg",
+ d6:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Vegansk_sm%C3%B6rg%C3%A5st%C3%A5rta_01.jpg/960px-Vegansk_sm%C3%B6rg%C3%A5st%C3%A5rta_01.jpg",
+ d7:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Bread_Ahead_Bakery_Cinnamon_Buns.jpg",
+ d8:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Cardamom_buns.jpg/960px-Cardamom_buns.jpg",
+ d9:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Christmas_theme_Princess_cake_in_Gothenburg_%286488397995%29.jpg/960px-Christmas_theme_Princess_cake_in_Gothenburg_%286488397995%29.jpg",
+ d10:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/SemlaFlickr.jpg/960px-SemlaFlickr.jpg",
+ d11:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/020260516_141010_Potato_pancakes_with_meat_goulash.jpg/960px-020260516_141010_Potato_pancakes_with_meat_goulash.jpg",
+ d12:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Janssons_frestelse.jpg/960px-Janssons_frestelse.jpg",
+ d13:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/02025_2181_Pea_soup.jpg/960px-02025_2181_Pea_soup.jpg",
+ d14:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Pytt_i_panna_%2813782629654%29.jpg/960px-Pytt_i_panna_%2813782629654%29.jpg",
+ d15:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wallenbergare.jpg/960px-Wallenbergare.jpg",
+ d16:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Kroppkaka.jpg/960px-Kroppkaka.jpg",
+ d17:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Julbord.jpg/960px-Julbord.jpg",
+ d18:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Falu_r%C3%A5g-rut.JPG/960px-Falu_r%C3%A5g-rut.JPG",
+ d19:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Br%C3%B8d_med_V%C3%A4sterbotten-ost_og_r%C3%B8get_gedeost_%285205155586%29.jpg/960px-Br%C3%B8d_med_V%C3%A4sterbotten-ost_og_r%C3%B8get_gedeost_%285205155586%29.jpg",
+ d20:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Hjortron.jpg/960px-Hjortron.jpg",
+ d21:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Crawfish_party_or_kr%C3%A4ftskiva.jpg/960px-Crawfish_party_or_kr%C3%A4ftskiva.jpg",
+ d22:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Preparing_Surstr%C3%B6mming_Wikimania_2019_by_Laliv_Gal.jpg/960px-Preparing_Surstr%C3%B6mming_Wikimania_2019_by_Laliv_Gal.jpg",
+ d23:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Chocolate_Ball.JPG/960px-Chocolate_Ball.JPG",
+ d24:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/02025_0353_Fish_soup.jpg/960px-02025_0353_Fish_soup.jpg",
+};
+
+/* ---------- DA VEDERE ---------- */
+const SIGHTS = [
+{id:'s1',name:'Hjälstavikens Naturreservat',q:'Hjälstavikens Naturreservat Håbo',town:'Håbo',min:6,type:'natura',lat:59.65503,lng:17.40534,ticket:'gratis',desc:`Riserva naturale a pochi minuti dalla base: una baia paludosa del Mälaren tra le migliori della Svezia per il birdwatching, con torrette di osservazione e la collina panoramica di Parnassen. Primavera e autunno spettacolari per gli uccelli.`},
+{id:'s2',name:'Ekolsunds slott',q:'Ekolsunds slott Håbo',town:'Håbo',min:6,type:'castello',lat:59.65051,lng:17.36687,ticket:'gratis (esterno)',desc:`Castello settecentesco a 5 minuti dalla base, oggi hotel e ristorante: bello da vedere dall'esterno tra i suoi viali, con caffè e mercatino nei weekend.`},
+{id:'s3',name:'Runsten U654',q:'Runsten U654 Håbo',town:'Håbo',min:9,type:'sito storico',lat:59.62947,lng:17.50027,ticket:'gratis',desc:`Pietra runica vichinga a bordo strada vicino alla base: una delle tante dell'Uppland, con iscrizione in alfabeto runico. Curiosità di pochi minuti.`},
+{id:'s4',name:'Åbergs Museum',q:'Åbergs Museum Bålsta',town:'Bålsta',min:13,type:'museo',lat:59.55807,lng:17.52009,ticket:'~150 kr',desc:`Il museo dell'illustratore Lasse Åberg a Bålsta: la più grande collezione di cimeli di Topolino al mondo, più manifesti e cultura pop. Divertente, anche con bambini.`},
+{id:'s5',name:'Skoklosters slott',q:'Skoklosters slott Skokloster',town:'Skokloster',min:17,type:'castello',lat:59.70318,lng:17.62116,ticket:'~150 kr',desc:`Uno dei più grandi castelli barocchi di Svezia, sul Mälaren a 20 minuti dalla base: rimasto com'era nel Seicento, con una sala da banchetto mai finita. Armeria e biblioteca notevoli.`},
+{id:'s6',name:'Skoklosters kyrka',q:'Skoklosters kyrka Skokloster',town:'Skokloster',min:17,type:'chiesa',lat:59.70458,lng:17.62390,ticket:'gratis',desc:`Chiesa medievale in pietra accanto al castello di Skokloster, con arredi e monumenti funebri d'epoca. Si abbina alla visita al palazzo.`},
+{id:'s7',name:'Wiks slott',q:'Wiks slott Uppsala',town:'Uppsala',min:19,type:'castello',lat:59.73619,lng:17.46174,ticket:'gratis (parco)',desc:`Castello tardomedievale ben conservato sulle rive del lago Ekoln, a una quindicina di minuti: torre bianca e parco aperti alla passeggiata, una delle fortezze più intatte del Paese.`},
+{id:'s8',name:'Sigtuna (centro medievale)',q:'Stora gatan Sigtuna',town:'Sigtuna',min:20,type:'borgo',lat:59.61724,lng:17.72111,ticket:'gratis',desc:`La città più antica della Svezia (anno 980 circa): Stora gatan, la 'via principale' più vecchia del Paese, casette di legno colorate, botteghe e caffè, e pietre runiche sparse ovunque. Perfetta da girare a piedi.`},
+{id:'s9',name:'Mariakyrkan',q:'Mariakyrkan Sigtuna',town:'Sigtuna',min:20,type:'chiesa',lat:59.61843,lng:17.72290,ticket:'gratis',desc:`Chiesa gotica in mattoni del Duecento, la più antica in muratura della regione: dentro, affreschi medievali restaurati. Cuore della vecchia Sigtuna.`},
+{id:'s10',name:'Sankt Olofs Kyrkoruin',q:'Sankt Olofs Kyrkoruin Sigtuna',town:'Sigtuna',min:20,type:'sito storico',lat:59.61836,lng:17.72116,ticket:'gratis',desc:`Le rovine della chiesa di Sant'Olof, del XII secolo, nella prima città cristianizzata di Svezia: mura possenti tra l'erba, suggestive al tramonto.`},
+{id:'s11',name:'Wenngarns slott',q:'Wenngarns slott Sigtuna',town:'Sigtuna',min:20,type:'castello',lat:59.64861,lng:17.71894,ticket:'gratis (parco)',desc:`Castello restaurato con giardini e orti, caffè e bottega, a due passi da Sigtuna: bella passeggiata tra le aiuole e la cappella, con vista sul lago.`},
+{id:'s12',name:'Drömparken',q:'Drömparken Enköping',town:'Enköping',min:19,type:'parco',lat:59.63477,lng:17.07249,ticket:'gratis',desc:`Il 'parco dei sogni' che ha reso Enköping la città-giardino della Svezia: enormi aiuole di perenni e graminacee in stile naturalistico, splendide da giugno a settembre. Si abbina agli Idéträdgårdar lì accanto.`},
+{id:'s13',name:'Grönsöö slott',q:'Grönsöö slott Enköping',town:'Enköping',min:19,type:'castello',lat:59.47251,lng:17.24592,ticket:'~giardino a pagamento',desc:`Castello seicentesco abitato dalla stessa famiglia da secoli, su un'isola del Mälaren a ovest di Enköping: giardino barocco e serra degli agrumi, visitabile d'estate.`},
+{id:'s14',name:'Uppsala domkyrka',q:'Uppsala domkyrka Uppsala',town:'Uppsala',min:32,type:'chiesa',lat:59.85819,lng:17.63352,ticket:'gratis',desc:`La cattedrale più grande della Scandinavia (1435), in mattoni e gotico francese: qui riposano Gustav Vasa e Linneo. Le due guglie si vedono da tutta la pianura.`},
+{id:'s15',name:'Uppsala Slott',q:'Uppsala Slott Uppsala',town:'Uppsala',min:31,type:'castello',lat:59.85326,lng:17.63562,ticket:'~museo a pagamento',desc:`Il castello rosa di Gustav Vasa domina la città dall'alto: oggi ospita musei e la residenza del governatore, con bel panorama sul Duomo e i tetti di Uppsala.`},
+{id:'s16',name:'Botaniska trädgården',q:'Botaniska trädgården Uppsala',town:'Uppsala',min:31,type:'parco',lat:59.85057,lng:17.62895,ticket:'gratis (serra a pagamento)',desc:`L'orto botanico di Uppsala, erede di Linneo: oltre 8.000 specie, prato barocco e una serra tropicale. Una passeggiata verde sotto il castello.`},
+{id:'s17',name:'Gamla Uppsala Högar',q:'Gamla Uppsala Högar Uppsala',town:'Uppsala',min:36,type:'sito archeologico',lat:59.89857,lng:17.63158,ticket:'gratis (museo a pagamento)',desc:`I grandi tumuli regali di Gamla Uppsala, cuore pagano dell'antica Svezia (V-VI sec.): colline funerarie, una chiesetta medievale e un museo che racconta i re leggendari.`},
+{id:'s18',name:'Giardino di Linneo',q:'Giardino di Linneo Uppsala',town:'Uppsala',min:32,type:'parco',lat:59.85787,lng:17.63808,ticket:'gratis (casa a pagamento)',desc:`Il giardino di Linneo, ricostruito com'era nel Settecento secondo il suo sistema di classificazione: piante disposte per ordine, con la casa-museo del grande botanico. Piccolo gioiello in centro.`},
+{id:'s19',name:'Gamla Stan',q:'Gamla Stan Stoccolma',town:'Stoccolma',min:53,type:'borgo',lat:59.32545,lng:18.07127,ticket:'gratis',desc:`Gamla Stan, la città vecchia di Stoccolma su un'isola: vicoli medievali, Stortorget con le case colorate, il vicolo più stretto della città. Turistica ma irrinunciabile.`},
+{id:'s20',name:'Kungliga slottet',q:'Kungliga slottet Stoccolma',town:'Stoccolma',min:53,type:'castello',lat:59.32682,lng:18.07172,ticket:'~190 kr',desc:`Il Palazzo Reale di Stoccolma, una delle regge più grandi d'Europa ancora in uso: appartamenti di stato, armeria reale e il cambio della guardia a mezzogiorno.`},
+{id:'s21',name:'Vasamuseet',q:'Vasamuseet Stoccolma',town:'Stoccolma',min:54,type:'museo',lat:59.32802,lng:18.09140,ticket:'~190 kr',desc:`Il museo del Vasa: il vascello da guerra del 1628 affondato nella rada al varo e recuperato intatto dopo 333 anni. L'attrazione più visitata della Scandinavia, da non perdere.`},
+{id:'s22',name:'Skansen',q:'Skansen Stoccolma',town:'Stoccolma',min:54,type:'museo',lat:59.32632,lng:18.10586,ticket:'~ 230 kr',desc:`Il museo all'aperto più antico del mondo, sull'isola di Djurgården: case e fattorie da tutta la Svezia con figuranti in costume, più uno zoo di animali nordici (orsi, alci, lupi). Una giornata intera.`},
+{id:'s23',name:'Stockholms stadshus',q:'Stockholms stadshus Stoccolma',town:'Stoccolma',min:52,type:'monumento',lat:59.32779,lng:18.05518,ticket:'~ tour 160 kr',desc:`Il Municipio di Stoccolma in mattoni rossi, dove si tiene il banchetto del Nobel: la Sala Blu e la Sala Dorata coi mosaici si vedono col tour, e si sale sulla torre per il panorama.`},
+{id:'s24',name:'Fotografiska Stockholm',q:'Fotografiska Stockholm Stoccolma',town:'Stoccolma',min:54,type:'museo',lat:59.31796,lng:18.08483,ticket:'~ 230 kr',desc:`Museo della fotografia in un ex edificio doganale a Södermalm: grandi mostre internazionali e un caffè all'ultimo piano con vista sull'acqua. Aperto fino a tardi.`},
+{id:'s25',name:'ABBA The Museum',q:'ABBA The Museum Stoccolma',town:'Stoccolma',min:54,type:'museo',lat:59.32509,lng:18.09678,ticket:'~ 320 kr',desc:`Il museo interattivo degli ABBA a Djurgården: costumi, studio di registrazione, karaoke e ologrammi. Kitsch e divertentissimo, sulla strada per Gröna Lund.`},
+{id:'s26',name:'Nationalmuseum',q:'Nationalmuseum Stoccolma',town:'Stoccolma',min:53,type:'museo',lat:59.32854,lng:18.07820,ticket:'gratis (mostre a pagamento)',desc:`Il museo nazionale d'arte di Svezia, sul lungomare di fronte al Palazzo Reale: dipinti dal Medioevo a oggi, design e arti applicate. Ingresso gratuito alla collezione.`},
+{id:'s27',name:'Skinnarviksberget',q:'Skinnarviksberget Stoccolma',town:'Stoccolma',min:52,type:'viewpoint',lat:59.31997,lng:18.05073,ticket:'gratis',desc:`La collina rocciosa di Södermalm, punto panoramico amato dagli stoccolmesi: vista aperta sul Municipio e sull'acqua, perfetta per il tramonto con una birra.`},
+{id:'s28',name:'Gröna Lund',q:'Gröna Lund Stoccolma',town:'Stoccolma',min:54,type:'parco divertimenti',lat:59.32336,lng:18.09639,ticket:'~ ingresso 150 kr',desc:`Il luna park storico di Djurgården, aperto in stagione: montagne russe affacciate sull'acqua e concerti dal vivo d'estate. Per famiglie e per una serata diversa.`},
+{id:'s29',name:'Drottningholms Slott',q:'Drottningholms Slott Drottningholm',town:'Drottningholm',min:45,type:'castello',lat:59.32169,lng:17.88683,ticket:'~150 kr',desc:`La reggia di Drottningholm, residenza della famiglia reale e patrimonio UNESCO: parco barocco, il Padiglione Cinese e il teatro settecentesco ancora funzionante. Raggiungibile anche in battello da Stoccolma.`},
+{id:'s30',name:'Gripsholms Slott',q:'Gripsholms Slott Mariefred',town:'Mariefred',min:43,type:'castello',lat:59.25604,lng:17.21945,ticket:'~150 kr',desc:`Il castello di Gripsholm a Mariefred, sul Mälaren: torrioni rotondi, interni cinquecenteschi e la collezione nazionale di ritratti. Il borgo accanto ha pure una ferrovia a vapore.`},
+{id:'s31',name:'Steninge Slottsby',q:'Steninge Slottsby Märsta',town:'Märsta',min:24,type:'castello',lat:59.60536,lng:17.79988,ticket:'~ giardini gratis',desc:`Palazzo barocco di Steninge progettato da Tessin, con giardini curati sul Mälaren: galleria d'arte, soffieria del vetro e una grande aia trasformata in bottega e caffè.`},
+{id:'s32',name:'Rosersbergs Slott',q:'Rosersbergs Slott Rosersberg',town:'Rosersberg',min:27,type:'castello',lat:59.57436,lng:17.84473,ticket:'~ tour 120 kr',desc:`Una delle regge reali svedesi, sul lago a sud di Sigtuna: interni imperiali rimasti intatti, parco all'inglese e vista sull'acqua. Meno affollata delle altre.`},
+{id:'s33',name:'Birka',q:'Birka Adelsö (Björkö)',town:'Adelsö (Björkö)',min:34,type:'sito archeologico',lat:59.33598,lng:17.54299,ticket:'~ crociera+ingresso',desc:`Birka, l'insediamento vichingo sull'isola di Björkö, patrimonio UNESCO: il primo centro urbano della Svezia, con tumuli, museo e scavi. Si raggiunge in battello (da Stoccolma o da Adelsö).`},
+{id:'s34',name:'Strängnäs domkyrka',q:'Strängnäs domkyrka Strängnäs',town:'Strängnäs',min:35,type:'chiesa',lat:59.37549,lng:17.03466,ticket:'gratis',desc:`La cattedrale gotica in mattoni di Strängnäs domina la cittadina sul Mälaren: qui fu eletto re Gustav Vasa nel 1523. Bel centro storico di legno attorno.`},
+{id:'s35',name:'Arsenalen, Sveriges försvarsfordonsmuseum',q:'Arsenalen, Sveriges försvarsfordonsmuseum Strängnäs',town:'Strängnäs',min:40,type:'museo',lat:59.36738,lng:16.93058,ticket:'~150 kr',desc:`Il museo dei mezzi corazzati svedesi vicino a Strängnäs: la più grande collezione di carri armati della Scandinavia, dentro e all'aperto. Insolito e amato dalle famiglie.`},
+{id:'s36',name:'Anundshög',q:'Anundshög Västerås',town:'Västerås',min:44,type:'sito archeologico',lat:59.63088,lng:16.64622,ticket:'gratis',desc:`Il più grande tumulo funerario di Svezia, vicino a Västerås: accanto, file di pietre disposte a forma di nave e una pietra runica. Campo dell'assemblea (thing) dell'età del ferro, in aperta campagna.`},
+{id:'s37',name:'Västerås domkyrka',q:'Västerås domkyrka Västerås',town:'Västerås',min:50,type:'chiesa',lat:59.61258,lng:16.54135,ticket:'gratis',desc:`La cattedrale in mattoni di Västerås (XIII sec.), con guglia e tetto di rame: dentro, la tomba di re Erik XIV. Cuore della città vecchia.`},
+{id:'s38',name:'Vallby Friluftsmuseum',q:'Vallby Friluftsmuseum Västerås',town:'Västerås',min:52,type:'museo',lat:59.62224,lng:16.51574,ticket:'gratis',desc:`Museo all'aperto di Västerås: un villaggio ricostruito dell'Ottocento con figuranti, animali di razze antiche e botteghe. Gratuito e adatto ai bambini.`},
+{id:'s39',name:'Tom Tits Experiment',q:'Tom Tits Experiment Södertälje',town:'Södertälje',min:50,type:'museo',lat:59.20023,lng:17.62373,ticket:'~ 235 kr',desc:`Centro sperimentale della scienza a Södertälje: tre piani e un giardino di esperimenti interattivi da toccare. Una delle gite migliori con i bambini in tutta la regione.`},
+];
+
+/* ---------- BAGNI & LAGHI ---------- */
+const BEACHES = [
+{id:'p1',name:'Kalmarsand',q:'Kalmarsand badplats Bålsta',town:'Bålsta',min:15,type:'lago',lat:59.55276,lng:17.55298,services:'Spiaggia di sabbia, bagni, chiosco; ampio parcheggio',desc:`La spiaggia di Bålsta sul Mälaren, a Kalmarsand: lunga lingua di sabbia con acqua bassa, prati e chiosco. La più comoda e frequentata vicino alla base.`},
+{id:'p2',name:'Nylada bad, Ekolsund',q:'Nylada bad, Ekolsund badplats Ekolsund',town:'Ekolsund',min:4,type:'lago',lat:59.64299,lng:17.39129,services:'Pontile e bagno, accesso libero',desc:`Bagno di Ekolsund a un passo dalla base, in fondo a una baia del Mälaren: pontile e prato tranquilli, l'acqua più vicina dove tuffarsi.`},
+{id:'p3',name:'Ekillabadet Bålsta',q:'Ekillabadet Bålsta badplats Bålsta',town:'Bålsta',min:9,type:'lago',lat:59.60522,lng:17.51032,services:'Spiaggia attrezzata, prato, bagni',desc:`Il bagno di Ekilla a Bålsta: spiaggia curata sul lago con prato e fondale dolce, popolare tra le famiglie del posto.`},
+{id:'p4',name:'Lilla Badet',q:'Lilla Badet badplats Bålsta',town:'Bålsta',min:15,type:'lago',lat:59.55348,lng:17.54504,services:'Spiaggia libera, nessun servizio',desc:`Piccola spiaggia tranquilla nella campagna di Håbo: acqua calma del Mälaren e poca gente, per un bagno senza folla.`},
+{id:'p5',name:'Slottsbadet',q:'Slottsbadet badplats Skokloster',town:'Skokloster',min:16,type:'lago',lat:59.68829,lng:17.62221,services:'Spiaggia, pontile, vicino al castello',desc:`Il bagno di Skokloster accanto al castello: prato e pontile sul Mälaren, da abbinare alla visita al palazzo barocco.`},
+{id:'p6',name:'Alstabadet',q:'Alstabadet badplats Örsundsbro',town:'Örsundsbro',min:17,type:'lago',lat:59.74459,lng:17.27310,services:'Spiaggia, pontile, parcheggio',desc:`Bagno sul fiume Örsundaån verso Örsundsbro: acqua calma e ambiente di campagna, comodo dalla base.`},
+{id:'p7',name:'Härjarö naturreservat',q:'Härjarö naturreservat badplats Enköping',town:'Enköping',min:17,type:'natura',lat:59.46725,lng:17.40397,services:'Riserva, spiagge, sentieri, campeggio',desc:`Riserva naturale su una penisola del Mälaren a ovest: spiagge, sentieri tra i pini e acqua limpida. Bello unire bagno e passeggiata.`},
+{id:'p8',name:'Koffsan Badplats',q:'Koffsan Badplats badplats Enköping',town:'Enköping',min:18,type:'lago',lat:59.53881,lng:17.13459,services:'Spiaggia cittadina, pontile, bagni',desc:`La spiaggia di Enköping sul Mälaren: sabbia, pontili e prato vicino al centro della città-giardino.`},
+{id:'p9',name:'Sjudargårdsbadet',q:'Sjudargårdsbadet badplats Sigtuna',town:'Sigtuna',min:18,type:'lago',lat:59.61730,lng:17.68831,services:'Spiaggia, bagni, parcheggio',desc:`Bagno di Sjudargården vicino a Sigtuna: spiaggetta tranquilla sul lago, comoda dopo il giro nel borgo medievale.`},
+{id:'p10',name:'Sigtuna Strandpromenad',q:'Sigtuna Strandpromenad badplats Sigtuna',town:'Sigtuna',min:20,type:'lago',lat:59.61506,lng:17.72225,services:'Lungolago, pontili, bagno dal pontile',desc:`La passeggiata sul lungolago di Sigtuna, col pontile di legno da cui ci si tuffa: una delle più belle viste sull'acqua della zona, al tramonto.`},
+{id:'p11',name:'Bredsand Badplats',q:'Bredsand Badplats badplats Enköping',town:'Enköping',min:19,type:'lago',lat:59.59209,lng:17.07043,services:'Spiaggia, campeggio, servizi',desc:`Spiaggia di Bredsand sul Mälaren, presso un campeggio a sud di Enköping: sabbia e fondale dolce, adatta ai bambini.`},
+{id:'p12',name:'Hammarskogs badplats',q:'Hammarskogs badplats badplats Uppsala',town:'Uppsala',min:21,type:'lago',lat:59.76375,lng:17.57604,services:'Spiaggia, area pic-nic, caffè di campagna',desc:`Bagno di Hammarskog sul lago Ekoln a sud di Uppsala: spiaggia, prati e un caffè in una vecchia tenuta, ideale per una giornata in famiglia.`},
+{id:'p13',name:'Morga Hage',q:'Morga Hage badplats Knivsta',town:'Knivsta',min:22,type:'natura',lat:59.75796,lng:17.64199,services:'Riserva, scogliette, sentieri',desc:`Riserva naturale di Morga Hage sul lago Ekoln: querce secolari, scogliette da cui tuffarsi e sentieri nel bosco. Bagno selvaggio e ombra.`},
+{id:'p14',name:'Lillsjön badplats',q:'Lillsjön badplats badplats Kungsängen',town:'Kungsängen',min:24,type:'lago',lat:59.49136,lng:17.71726,services:'Spiaggia, prato, bagni',desc:`Bagno del Lillsjön a Kungsängen, sulla strada per Stoccolma: laghetto con spiaggia e prato, acqua che si scalda presto in estate.`},
+{id:'p15',name:'Lyssnaängsbadet',q:'Lyssnaängsbadet badplats Uppsala',town:'Uppsala',min:24,type:'lago',lat:59.78302,lng:17.63327,services:'Spiaggia attrezzata, sabbia, bagni',desc:`Spiaggia sul lago Ekoln presso Uppsala: ampia distesa di sabbia e servizi, una delle più frequentate dagli uppsaliesi.`},
+{id:'p16',name:'Steningebadet',q:'Steningebadet badplats Märsta',town:'Märsta',min:25,type:'lago',lat:59.60043,lng:17.81500,services:'Spiaggia vicino al castello di Steninge',desc:`Bagno di Steninge sul Mälaren, vicino al palazzo barocco: spiaggia tranquilla da abbinare alla visita ai giardini.`},
+];
+
+const ITINERARIES = [{"id": "it1", "title": "Sigtuna, la città più antica di Svezia", "tags": ["Cultura", "Borgo"], "total": 48, "ret": 20, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s8", "name": "Sigtuna (centro medievale)", "town": "Sigtuna", "leg": 20, "note": "Passeggiata su Stora gatan, la via più antica del Paese, tra casette di legno e pietre runiche"}, {"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s9", "name": "Mariakyrkan", "town": "Sigtuna", "leg": 2, "note": "Mariakyrkan e le rovine di Sant'Olof"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r22", "name": "Båthuset Krog & Bar", "town": "Sigtuna", "leg": 2, "note": "Pranzo sul lungolago alla casa-barca"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "beach", "id": "p10", "name": "Sigtuna Strandpromenad", "town": "Sigtuna", "leg": 2, "note": "Bagno e passeggiata sul pontile della Strandpromenad"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r29", "name": "Farbror Blå", "town": "Sigtuna", "leg": 2, "note": "Cena di pesce nel borgo"}]}, {"id": "it2", "title": "Castelli vicino casa: Skokloster e Wik", "tags": ["Cultura", "Mare"], "total": 84, "ret": 12, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s5", "name": "Skoklosters slott", "town": "Skokloster", "leg": 18, "note": "Il castello barocco di Skokloster, fermo al Seicento"}, {"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s6", "name": "Skoklosters kyrka", "town": "Skokloster", "leg": 2, "note": "La chiesa medievale accanto al castello"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r1", "name": "Krägga Mat & Vänner", "town": "Bålsta", "leg": 18, "note": "Pranzo o fika sul Mälaren a due passi dalla base"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "see", "id": "s7", "name": "Wiks slott", "town": "Uppsala", "leg": 16, "note": "Il castello bianco di Wik sul lago Ekoln"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r2", "name": "Pino's Möten & Mat", "town": "Grillby", "leg": 18, "note": "Cena italiana di paese a Grillby"}]}, {"id": "it3", "title": "Uppsala: duomo, castello e i re vichinghi", "tags": ["Cultura"], "total": 85, "ret": 34, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s14", "name": "Uppsala domkyrka", "town": "Uppsala", "leg": 33, "note": "La cattedrale più grande della Scandinavia"}, {"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s15", "name": "Uppsala Slott", "town": "Uppsala", "leg": 2, "note": "Il castello rosa di Gustav Vasa e l'orto botanico"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r36", "name": "Güntherska Hovkonditori & Schweizeri", "town": "Uppsala", "leg": 2, "note": "Fika storica e pranzo nel centro pedonale"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "see", "id": "s17", "name": "Gamla Uppsala Högar", "town": "Uppsala", "leg": 7, "note": "I grandi tumuli regali di Gamla Uppsala"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r38", "name": "Negai Restaurang - City", "town": "Uppsala", "leg": 7, "note": "Sushi molto amato in centro"}]}, {"id": "it4", "title": "Stoccolma classica: Gamla Stan e il Vasa", "tags": ["Cultura"], "total": 117, "ret": 55, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s19", "name": "Gamla Stan", "town": "Stoccolma", "leg": 55, "note": "Vicoli e piazze della città vecchia, col Palazzo Reale"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r56", "name": "Restaurang Kajsas Fisk", "town": "Stockholm", "leg": 2, "note": "Zuppa di pesce al mercato di Hötorget"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "see", "id": "s21", "name": "Vasamuseet", "town": "Stoccolma", "leg": 3, "note": "Il vascello Vasa, poi Skansen sull'isola di Djurgården"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r62", "name": "Stockholms Gästabud", "town": "Stockholm", "leg": 2, "note": "Husmanskost autentica per cena"}]}, {"id": "it5", "title": "Stoccolma di Södermalm: foto, musica e tramonto", "tags": ["Cultura"], "total": 120, "ret": 56, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s25", "name": "ABBA The Museum", "town": "Stoccolma", "leg": 56, "note": "Il museo degli ABBA a Djurgården"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r60", "name": "Östermalms Saluhall", "town": "Stockholm", "leg": 3, "note": "Pranzo tra i banchi del mercato gourmet"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "see", "id": "s24", "name": "Fotografiska Stockholm", "town": "Stoccolma", "leg": 3, "note": "Le mostre di Fotografiska, poi il tramonto da Skinnarviksberget"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r66", "name": "Restaurant Pelikan", "town": "Stockholm", "leg": 2, "note": "Birreria storica per la cena svedese"}]}, {"id": "it6", "title": "Drottningholm, la reggia sul lago", "tags": ["Cultura", "Mare"], "total": 126, "ret": 36, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s29", "name": "Drottningholms Slott", "town": "Drottningholm", "leg": 47, "note": "La reggia UNESCO, il Padiglione Cinese e il teatro settecentesco"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r34", "name": "Juntras Grönt", "town": "Färentuna", "leg": 17, "note": "Pranzo nel verde sull'isola di Ekerö"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "beach", "id": "p14", "name": "Lillsjön badplats", "town": "Kungsängen", "leg": 14, "note": "Bagno al Lillsjön di Kungsängen sulla via del ritorno"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r41", "name": "Pizzeria Järfälla", "town": "Järfälla", "leg": 12, "note": "Pizza a Jakobsberg prima di rientrare"}]}, {"id": "it7", "title": "Mariefred e il castello di Gripsholm", "tags": ["Cultura", "Borgo"], "total": 176, "ret": 45, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s30", "name": "Gripsholms Slott", "town": "Mariefred", "leg": 45, "note": "Il castello di Gripsholm e i suoi ritratti"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r47", "name": "Kafé Klavér", "town": "Mariefred", "leg": 3, "note": "Pranzo di gran cuore nel borgo"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "beach", "id": "p1", "name": "Kalmarsand", "town": "Bålsta", "leg": 42, "note": "Rientro verso il Mälaren e bagno a Kalmarsand"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r44", "name": "Alba i Mariefred", "town": "Mariefred", "leg": 41, "note": "Cena casalinga (oppure a Mariefred prima di rientrare)"}]}, {"id": "it8", "title": "Enköping, la città-giardino", "tags": ["Natura"], "total": 86, "ret": 19, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s12", "name": "Drömparken", "town": "Enköping", "leg": 20, "note": "Le grandi aiuole del Drömparken e i giardini a tema"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r15", "name": "Grekiska grill & bar", "town": "Enköping", "leg": 2, "note": "Pranzo greco col buffet di insalate"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "see", "id": "s13", "name": "Grönsöö slott", "town": "Enköping", "leg": 22, "note": "Il castello di Grönsöö sull'isola del Mälaren"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r13", "name": "Drottningens", "town": "Enköping", "leg": 23, "note": "La pizza più amata di Enköping"}]}, {"id": "it9", "title": "Västerås e il tumulo vichingo di Anundshög", "tags": ["Cultura", "Natura"], "total": 116, "ret": 50, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s36", "name": "Anundshög", "town": "Västerås", "leg": 46, "note": "Il più grande tumulo funerario di Svezia, con le pietre a forma di nave"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r52", "name": "Kajplats 9", "town": "Västerås", "leg": 10, "note": "Pranzo sul porto con panino ai gamberetti"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "see", "id": "s38", "name": "Vallby Friluftsmuseum", "town": "Västerås", "leg": 4, "note": "Il villaggio-museo all'aperto di Vallby"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r51", "name": "Marin Kolgrill Malmaberg", "town": "Västerås", "leg": 6, "note": "Grigliata mediorientale prima del rientro"}]}, {"id": "it10", "title": "Giornata al Mälaren: bagni e relax", "tags": ["Mare"], "total": 46, "ret": 9, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "beach", "id": "p1", "name": "Kalmarsand", "town": "Bålsta", "leg": 12, "note": "Mattinata sulla sabbia di Kalmarsand"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r1", "name": "Krägga Mat & Vänner", "town": "Bålsta", "leg": 11, "note": "Pranzo sul lago vicino alla base"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "beach", "id": "p3", "name": "Ekillabadet Bålsta", "town": "Bålsta", "leg": 9, "note": "Pomeriggio al bagno di Ekilla"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r4", "name": "Elektra Taverna", "town": "Bålsta", "leg": 5, "note": "Cena alla taverna greca di Bålsta"}]}, {"id": "it11", "title": "Natura a due passi: Hjälstaviken ed Ekolsund", "tags": ["Natura"], "total": 57, "ret": 15, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s1", "name": "Hjälstavikens Naturreservat", "town": "Håbo", "leg": 7, "note": "Birdwatching alla baia di Hjälstaviken e salita al colle di Parnassen"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r10", "name": "Gula villan i Örsundsbro", "town": "Örsundsbro", "leg": 11, "note": "Fika e pranzo nella villetta gialla di Örsundsbro"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "beach", "id": "p2", "name": "Nylada bad, Ekolsund", "town": "Ekolsund", "leg": 12, "note": "Tuffo al bagno di Ekolsund, sotto il castello"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r9", "name": "Pizzeria Amore (i Örsundsbro)", "town": "Örsundsbro", "leg": 12, "note": "Pizza a Örsundsbro"}]}, {"id": "it12", "title": "Castelli barocchi: Steninge e Rosersberg", "tags": ["Cultura"], "total": 69, "ret": 31, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s31", "name": "Steninge Slottsby", "town": "Märsta", "leg": 25, "note": "Il palazzo di Steninge, i giardini e la soffieria del vetro"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r32", "name": "Steninge Bruk", "town": "Märsta", "leg": 2, "note": "Pranzo nella bottega-caffè accanto al castello"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "see", "id": "s32", "name": "Rosersbergs Slott", "town": "Rosersberg", "leg": 7, "note": "La reggia di Rosersberg sul lago"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r33", "name": "KI japansk restaurang", "town": "Rosersberg", "leg": 4, "note": "Cena giapponese a Rosersberg"}]}, {"id": "it13", "title": "Tom Tits e il castello delle torte", "tags": ["Famiglia", "Cultura"], "total": 157, "ret": 49, "legs": [{"slot": "Mattina", "icon": "🌅", "kind": "see", "id": "s39", "name": "Tom Tits Experiment", "town": "Södertälje", "leg": 52, "note": "Tre piani di esperimenti da toccare al Tom Tits di Södertälje"}, {"slot": "Pranzo", "icon": "🍝", "kind": "eat", "id": "r45", "name": "Taxinge Slottscafé", "town": "Nykvarn", "leg": 20, "note": "Il leggendario buffet di torte del 'castello dei dolci'"}, {"slot": "Pomeriggio", "icon": "☀️", "kind": "see", "id": "s34", "name": "Strängnäs domkyrka", "town": "Strängnäs", "leg": 23, "note": "Sulla via del ritorno, il duomo e il borgo di Strängnäs"}, {"slot": "Cena", "icon": "🌙", "kind": "eat", "id": "r48", "name": "Emma Grön", "town": "Strängnäs", "leg": 13, "note": "Cena semplice a Strängnäs"}]}];
+
+</script>
+
+<!-- ============ APP LOGIC ============ -->
+<script>
+(function(){
+  "use strict";
+  const KEY = (typeof GOOGLE_MAPS_API_KEY==='string') ? GOOGLE_MAPS_API_KEY.trim() : '';
+  const HAS_KEY = KEY && KEY !== 'INCOLLA_QUI_LA_TUA_CHIAVE' && KEY.length > 20;
+  const enc = encodeURIComponent;
+
+  // fix one accidental placeholder coord for Don Camillo
+  RESTAURANTS.forEach(r=>{ if(r._lat){r.lat=r._lat;r.lng=r._lng;} });
+
+  const GROUP_COLOR = {food:'#c0563b', see:'#7a4ea0', beach:'#1b8a9a'};
+  const GROUP_GLYPH = {food:'🍴', see:'🏛️', beach:'🏖️'};
+  const TAB_OF_GROUP = {food:'ristoranti', see:'vedere', beach:'spiagge'};
+
+  function driveMin(z){ return ZONE[z] || null; }
+  function dirUrl(place){
+    const dest = place.addr ? (place.name+', '+place.addr) : (place.name+', '+(place.town||''));
+    return 'https://www.google.com/maps/dir/?api=1&origin='+enc(MASSERIA.query)+'&destination='+enc(dest);
+  }
+  function searchUrl(place){
+    return 'https://www.google.com/maps/search/?api=1&query='+enc(place.name+' '+(place.town||''));
+  }
+  function starStr(r){ if(!r&&r!==0) return ''; const full=Math.round(r); return '★'.repeat(full)+'☆'.repeat(Math.max(0,5-full)); }
+
+  /* ---------- CARD HTML ---------- */
+  function priceBadge(p){ return p? '<span class="badge">'+p+'</span>':''; }
+  function specHtml(arr){ return arr&&arr.length? '<div class="spec">'+arr.map(s=>'<span>'+esc(s)+'</span>').join('')+'</div>':''; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  /* Immagine "piatto" rappresentativa per un locale (solo immagini affidabili Wikimedia). */
+  const DISH_KW = [
+    ['köttbull','d1'],['polpett','d1'],['husmanskost','d1'],['räk','d2'],['skagen','d3'],
+    ['gravad','d4'],['gravlax','d4'],['sill','d5'],['aringa','d5'],['smörgåstårta','d6'],
+    ['kanelbull','d7'],['kardemumma','d8'],['prinsesst','d9'],['semla','d10'],['raggmunk','d11'],
+    ['jansson','d12'],['ärtsoppa','d13'],['pytt','d14'],['wallenberg','d15'],['kroppkak','d16'],
+    ['julbord','d17'],['knäckebröd','d18'],['västerbotten','d19'],['lingon','d20'],
+    ['kräft','d21'],['surström','d22'],['chokladboll','d23'],['fisksoppa','d24'],['zuppa di pesce','d24']
+  ];
+  const DISH_MATCH = [
+    ['köttbull','d1'],['polpett','d1'],['meatball','d1'],['husmanskost','d1'],
+    ['räkmacka','d2'],['räksmörgås','d2'],['räksallad','d2'],['gamberett','d2'],
+    ['toast skagen','d3'],['skagen','d3'],['gravad','d4'],['gravlax','d4'],['salmone marinat','d4'],
+    ['inlagd sill','d5'],['sill','d5'],['aringa','d5'],['gravlax','d4'],
+    ['smörgåstårta','d6'],['kanelbull','d7'],['kardemumma','d8'],['prinsesst','d9'],['princess','d9'],
+    ['semla','d10'],['semlor','d10'],['raggmunk','d11'],['jansson','d12'],['ärtsoppa','d13'],['piselli','d13'],
+    ['pytt','d14'],['pyttipanna','d14'],['wallenberg','d15'],['kroppkak','d16'],
+    ['julbord','d17'],['smörgåsbord','d17'],['knäckebröd','d18'],['västerbotten','d19'],
+    ['lingon','d20'],['hjortron','d20'],['kräft','d21'],['crayfish','d21'],['surström','d22'],
+    ['chokladboll','d23'],['fisksoppa','d24']
+  ];
+  function dishesAt(place){
+    const ids=new Set();
+    DISHES.forEach(d=>{ if((d.tryAt||[]).some(n=> n===place.name || n.includes(place.name) || place.name.includes(n))) ids.add(d.id); });
+    const hay=((place.spec||[]).join(' ')+' '+(place.desc||'')).toLowerCase();
+    for(const [kw,id] of DISH_MATCH){ if(hay.includes(kw)) ids.add(id); }
+    return DISHES.filter(d=>ids.has(d.id));
+  }
+  function dishTagsHtml(place, group){
+    if(group!=='food') return '';
+    const ds=dishesAt(place); if(!ds.length) return '';
+    return '<div class="dishrow"><span class="lbl">🍽️ Piatti tipici qui:</span>'+
+      ds.slice(0,6).map(d=>'<a class="tag-dish" href="#" data-goto="'+d.id+'">'+(d.emoji||'')+' '+esc(d.name)+'</a>').join('')+'</div>';
+  }
+  function restaurantDishImg(r){
+    const hay = ((r.spec||[]).join(' ')+' '+(r.desc||'')).toLowerCase();
+    for(const [kw,id] of DISH_KW){ if(hay.includes(kw) && DISH_IMG[id]) return DISH_IMG[id]; }
+    if(['pasticceria','gelateria','bar'].includes(r.type)) return DISH_IMG.d1;
+    if(r.type==='enoteca') return DISH_IMG.d25;
+    if(r.type==='street food') return DISH_IMG.d14;
+    const coast=['marina','avola','marzamemi','pachino','portopalo','siracusa','fontanebianche','arenella','calabernardo','puntasecca','marinaragusa','pozzallo'];
+    return coast.includes(r.z) ? DISH_IMG.d8 : DISH_IMG.d5;
+  }
+
+  function placeCard(place, group){
+    const min = (place.min!=null) ? place.min : driveMin(place.z);
+    const distBadge = min!=null ? '<span class="badge dist">🚗 ~'+min+' min</span>' : '';
+    const star = place.star ? '<span class="badge star">★ Michelin</span>' : '';
+    const typeBadge = place.type ? '<span class="badge type">'+esc(cap(place.type))+'</span>' : '';
+    const lucBadge = place.lucrezia ? '<span class="badge luc">Lucrezia</span>' : '';
+    const nearBadge = place.near ? '<span class="badge near">🏡 Vicino alla base</span>' : '';
+    const topBadge = place.top ? '<span class="badge top">⭐ Top</span>' : '';
+    const vibeBadge = place.vibe==='verace' ? '<span class="badge verace">🍴 Verace</span>'
+                    : place.vibe==='carino' ? '<span class="badge carino">✨ Posto carino</span>' : '';
+    const turBadge = place.turistico ? '<span class="badge turistico">🧳 Turistico</span>' : '';
+    const badges = `<div class="badges">${topBadge}${vibeBadge}${lucBadge}${nearBadge}${typeBadge}${priceBadge(place.price)}${turBadge}${star}</div>${distBadge}`;
+    const isFood = group==='food';
+    const imgArea = isFood
+      ? `<div class="imgwrap strip" data-img>
+        <div class="ph">${GROUP_GLYPH[group]}</div>
+        ${badges}
+      </div>`
+      : `<div class="imgwrap" data-img>
+        <div class="ph">${GROUP_GLYPH[group]}</div>
+        ${badges}
+      </div>`;
+    return `<article class="card" id="card-${place.id}" data-id="${place.id}" data-group="${group}"
+        data-name="${esc((place.name+' '+(place.town||'')+' '+((place.spec||[]).join(' '))+(place.lucrezia?' lucrezia consigliato da lucrezia':'')+(place.near?' vicino base masseria':'')).toLowerCase())}"
+        data-type="${esc(place.type||'')}"
+        data-top="${place.top?1:''}" data-vibe="${esc(place.vibe||'')}" data-tur="${place.turistico?1:''}">
+      ${imgArea}
+      <div class="body">
+        <div>
+          <h3>${esc(place.name)}</h3>
+          <div class="town">📍 ${esc(place.town||'')}</div>
+        </div>
+        <div class="rating" data-rating><span class="loading">${HAS_KEY?'Carico valutazione…':''}</span></div>
+        <p class="desc">${esc(place.desc||'')}</p>
+        ${specHtml(place.spec)}
+        ${dishTagsHtml(place, group)}
+        ${ place.ticket? '<div class="meta">🎟️ Ingresso: '+esc(place.ticket)+'</div>':'' }
+        ${ place.services? '<div class="meta">🏖️ '+esc(place.services)+'</div>':'' }
+        <div class="meta" data-phone></div>
+        <div data-hours></div>
+        <div class="actions">
+          <a class="btn dir" href="${dirUrl(place)}" target="_blank" rel="noopener">🧭 Indicazioni</a>
+          <a class="btn gm" data-gm href="${searchUrl(place)}" target="_blank" rel="noopener">📍 Google Maps</a>
+        </div>
+        <div class="reviews" data-reviews></div>
+      </div>
+    </article>`;
+  }
+  function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+  function dishCard(d){
+    const eat = (d.tryAt||[]).map(name=>{
+      const r = RESTAURANTS.find(x=> name.includes(x.name) || x.name.includes(name));
+      if(r) return `<a class="tag-eat" href="#" data-goto="${r.id}">${esc(r.name)} →</a>`;
+      return `<span class="tag-eat txt">${esc(name)}</span>`;
+    }).join(' ');
+    return `<article class="card" id="card-${d.id}" data-id="${d.id}"
+        data-name="${esc((d.name+' '+d.cat+' '+d.where).toLowerCase())}" data-type="${esc(d.cat)}">
+      <div class="imgwrap" data-img>
+        ${ DISH_IMG[d.id] ? `<img loading="lazy" alt="${esc(d.name)}" src="${DISH_IMG[d.id]}">` : `<div class="ph">${d.emoji||'🍽️'}</div>` }
+        <div class="badges"><span class="badge type">${esc(d.cat)}</span></div>
+      </div>
+      <div class="body">
+        <div><h3>${esc(d.name)}</h3><div class="town">📍 ${esc(d.where)}</div></div>
+        <p class="desc">${esc(d.desc)}</p>
+        ${ eat? '<div class="where"><b>Dove provarlo:</b><br>'+eat+'</div>' : '<div class="where"><b>Dove provarlo:</b> nei mercati e nelle aziende del territorio</div>'}
+      </div>
+    </article>`;
+  }
+
+  /* ---------- RENDER GRIDS ---------- */
+  /* ---------- ITINERARI ---------- */
+  const ITIN_TAGCOLOR={'Cultura':'#8e54b8','Mare':'#1b8a9a','Natura':'#3a7d44','Borgo':'#c0563b'};
+  function fmtDrive(m){ return m>=60 ? ('~'+Math.floor(m/60)+' h'+(m%60? ' '+(m%60)+' min':'')) : ('~'+m+' min'); }
+  function itinCard(it){
+    const tags=it.tags.map(t=>'<span class="itag" style="background:'+(ITIN_TAGCOLOR[t]||'#777')+'">'+esc(t)+'</span>').join('');
+    let tl='<div class="itin-row base">🏡 <b>Partenza</b> dalla base di Bålsta</div>';
+    it.legs.forEach(l=>{
+      tl+='<div class="itin-drive">🚗 ~'+l.leg+' min</div>'+
+        '<div class="itin-row stop '+l.kind+'"><span class="islot">'+l.icon+' '+esc(l.slot)+'</span>'+
+        '<a class="ilink" href="#" data-expand="'+l.id+'">'+esc(l.name)+'</a>'+
+        (l.town?' <span class="itown">· '+esc(l.town)+'</span>':'')+
+        (l.note?'<div class="inote">'+esc(l.note)+'</div>':'')+'</div>';
+    });
+    tl+='<div class="itin-drive">🚗 ~'+it.ret+' min</div><div class="itin-row base">🏡 <b>Rientro</b> alla base</div>';
+    return '<article class="card itin" data-tags="'+esc(it.tags.join(',').toLowerCase())+'">'+
+      '<div class="itin-head"><div class="itags">'+tags+'</div><h3>'+esc(it.title)+'</h3>'+
+      '<div class="itin-tot">🚗 '+fmtDrive(it.total)+' in auto in giornata · '+it.legs.length+' tappe</div></div>'+
+      '<div class="itin-timeline">'+tl+'</div></article>';
+  }
+  function renderItineraries(){
+    const grid=document.getElementById('grid-itinerari'); if(!grid) return;
+    grid.innerHTML = ITINERARIES.map(itinCard).join('');
+    const tags=[...new Set(ITINERARIES.flatMap(i=>i.tags))];
+    const box=document.getElementById('filter-itinerari');
+    box.innerHTML='<span class="chip active" data-f="*">Tutti</span>'+tags.map(t=>'<span class="chip" data-f="'+esc(t.toLowerCase())+'">'+esc(t)+'</span>').join('');
+    box.addEventListener('click', e=>{
+      const c=e.target.closest('.chip'); if(!c) return;
+      box.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); c.classList.add('active');
+      const f=c.dataset.f;
+      grid.querySelectorAll('.itin').forEach(card=>{ card.style.display=(f==='*'||(card.dataset.tags||'').includes(f))?'':'none'; });
+    });
+  }
+
+  function render(){
+    document.getElementById('grid-ristoranti').innerHTML = RESTAURANTS.map(r=>placeCard(r,'food')).join('');
+    document.getElementById('grid-vedere').innerHTML = SIGHTS.map(s=>placeCard(s,'see')).join('');
+    document.getElementById('grid-spiagge').innerHTML = BEACHES.map(b=>placeCard(b,'beach')).join('');
+    document.getElementById('grid-piatti').innerHTML = DISHES.map(dishCard).join('');
+    renderItineraries();
+    buildFilters('ristoranti', RESTAURANTS.map(r=>r.type));
+    buildBadgeFilters();
+    buildFilters('vedere', SIGHTS.map(s=>s.type));
+    buildFilters('spiagge', BEACHES.map(b=>b.type));
+    buildFilters('piatti', DISHES.map(d=>d.cat));
+    updateCount('ristoranti'); updateCount('vedere'); updateCount('spiagge'); updateCount('piatti');
+  }
+
+  function buildFilters(key, types){
+    const uniq = [...new Set(types)].sort();
+    const box = document.getElementById('filter-'+key);
+    box.innerHTML = '<span class="chip active" data-f="*">Tutti</span>' +
+      uniq.map(t=>`<span class="chip" data-f="${esc(t)}">${esc(cap(t))}</span>`).join('');
+    box.addEventListener('click', e=>{
+      const c = e.target.closest('.chip'); if(!c) return;
+      box.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+      c.classList.add('active');
+      applyFilter(key);
+    });
+  }
+
+  const BADGE_DEFS=[['top','⭐ Top'],['verace','🍴 Verace/locale'],['carino','✨ Posto carino']];
+  function buildBadgeFilters(){
+    const box=document.getElementById('badgefilter-ristoranti'); if(!box) return;
+    box.innerHTML = BADGE_DEFS.map(([b,l])=>`<span class="bchip" data-b="${b}" title="filtra: ${esc(l)}">${l}</span>`).join('');
+    box.addEventListener('click', e=>{
+      const c=e.target.closest('.bchip'); if(!c) return;
+      c.classList.toggle('active');
+      applyFilter('ristoranti');
+    });
+  }
+  function applyFilter(key){
+    const box = document.getElementById('filter-'+key);
+    const active = box.querySelector('.chip.active');
+    const f = active? active.dataset.f : '*';
+    const q = (document.getElementById('search-'+key).value||'').toLowerCase().trim();
+    const bbox = document.getElementById('badgefilter-'+key);
+    const badges = bbox ? [...bbox.querySelectorAll('.bchip.active')].map(c=>c.dataset.b) : [];
+    const grid = document.getElementById('grid-'+key);
+    grid.querySelectorAll('.card').forEach(card=>{
+      const okType = (f==='*') || card.dataset.type===f;
+      const okText = !q || card.dataset.name.includes(q);
+      const okBadge = badges.every(b=>
+          b==='top'    ? card.dataset.top==='1'
+        : b==='verace' ? card.dataset.vibe==='verace'
+        : b==='carino' ? card.dataset.vibe==='carino'
+        : b==='tur'    ? card.dataset.tur==='1' : true);
+      card.style.display = (okType && okText && okBadge)? '' : 'none';
+    });
+    updateCount(key);
+  }
+  function updateCount(key){
+    const grid = document.getElementById('grid-'+key);
+    const total = grid.querySelectorAll('.card').length;
+    const vis = [...grid.querySelectorAll('.card')].filter(c=>c.style.display!=='none').length;
+    const labels={ristoranti:'locali',vedere:'luoghi',spiagge:'spiagge',piatti:'piatti'};
+    document.getElementById('count-'+key).textContent = vis+' '+(labels[key]||'')+(vis!==total? ' (su '+total+')':'');
+  }
+
+  /* ---------- TABS ---------- */
+  function setupTabs(){
+    const bar = document.getElementById('tabbar');
+    bar.addEventListener('click', e=>{
+      const t = e.target.closest('.tab'); if(!t) return;
+      activateTab(t.dataset.tab);
+    });
+  }
+  function activateTab(name){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+name));
+    if(name==='mappa' && map){ setTimeout(()=>{ google.maps.event.trigger(map,'resize'); }, 60); }
+    window.scrollTo({top:0,behavior:'smooth'});
+    setTimeout(enrichVisible, 200);
+  }
+  function resetFilters(key){
+    const fb=document.getElementById('filter-'+key);
+    if(fb) fb.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active', c.dataset.f==='*'));
+    const bb=document.getElementById('badgefilter-'+key);
+    if(bb) bb.querySelectorAll('.bchip').forEach(c=>c.classList.remove('active'));
+    const s=document.getElementById('search-'+key); if(s) s.value='';
+    applyFilter(key);
+  }
+  function goToCard(id){
+    let tab='ristoranti';
+    if(id[0]==='s') tab='vedere'; else if(id[0]==='p') tab='spiagge'; else if(id[0]==='d') tab='piatti';
+    closeModal();
+    activateTab(tab);
+    resetFilters(tab);  // togli eventuali filtri così la card non è nascosta
+    setTimeout(()=>{
+      const el = document.getElementById('card-'+id);
+      if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+    }, 360);
+  }
+  // expose for inline map button / dish links
+  window.__goToCard = goToCard;
+
+  /* ---------- MODALE "ESPANDI SCHEDA" ---------- */
+  function ensureModal(){
+    let m=document.getElementById('placeModal');
+    if(!m){
+      m=document.createElement('div'); m.id='placeModal'; m.className='pm-overlay';
+      m.innerHTML='<div class="pm-box"><button class="pm-close" aria-label="Chiudi">✕</button><div class="pm-body"></div></div>';
+      document.body.appendChild(m);
+      m.addEventListener('click', e=>{
+        if(e.target===m || e.target.closest('.pm-close')){ closeModal(); return; }
+        const a=e.target.closest('[data-goto]'); if(a){ e.preventDefault(); goToCard(a.dataset.goto); }
+      });
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+    }
+    return m;
+  }
+  function closeModal(){ const m=document.getElementById('placeModal'); if(m) m.classList.remove('open'); document.body.style.overflow=''; }
+  async function expandPlace(id){
+    const place=RESTAURANTS.find(x=>x.id===id)||SIGHTS.find(x=>x.id===id)||BEACHES.find(x=>x.id===id);
+    if(!place) return;
+    const m=ensureModal(); const body=m.querySelector('.pm-body');
+    // mostra subito tutto il contenuto statico (titolo, descrizione, piatti tipici, pulsanti): niente attesa
+    body.innerHTML=placeModalContent(place, null, HAS_KEY);
+    m.classList.add('open'); document.body.style.overflow='hidden';
+    if(HAS_KEY){
+      const p = await fetchPlace(place);
+      if(m.classList.contains('open') && p) body.innerHTML=placeModalContent(place, p, false);  // aggiorna con foto/valutazione/recensioni/orari
+    }
+  }
+  window.__expandPlace=expandPlace;
+  function placeModalContent(place,p,loading){
+    const photos=(p&&p.photos)||[];
+    const n=Math.min(3,photos.length);
+    let gal='';
+    if(n>0){ gal='<div class="pm-gallery">'; for(let i=0;i<n;i++) gal+='<img src="'+photoURI(p,720,520,i)+'" alt="'+esc(place.name)+'">'; gal+='</div>'; }
+    else if(loading){ gal='<div class="pm-load" style="padding:22px 20px">📷 Carico foto, valutazione e recensioni da Google…</div>'; }
+    const min=(place.min!=null)?place.min:driveMin(place.z);
+    const topB=place.top?'<span class="badge top">⭐ Top</span>':'';
+    const vibeB=place.vibe==='verace'?'<span class="badge verace">🍴 Verace</span>':place.vibe==='carino'?'<span class="badge carino">✨ Posto carino</span>':'';
+    const priceB=place.price?'<span class="badge type">'+esc(place.price)+'</span>':'';
+    const distB=min!=null?'<span class="badge dist" style="position:static">🚗 ~'+min+' min</span>':'';
+    const rating=(p&&p.rating)?'<div style="margin:6px 0;font-size:14px"><span class="stars">'+starStr(p.rating)+'</span> <b>'+p.rating.toFixed(1)+'</b> <span style="color:var(--muted)">('+(p.userRatingCount||0)+' recensioni Google)</span></div>':'';
+    const ds=dishesAt(place);
+    const dishHtml=ds.length?'<div class="pm-dishes"><b>🍽️ Piatti tipici da provare qui</b>'+ds.map(d=>'<a class="tag-dish" href="#" data-goto="'+d.id+'">'+(d.emoji||'')+' '+esc(d.name)+'</a>').join('')+'</div>':'';
+    const phone=(p&&p.nationalPhoneNumber)?'<div class="pm-meta">📞 <a href="tel:'+esc(p.nationalPhoneNumber.replace(/\s/g,''))+'">'+esc(p.nationalPhoneNumber)+'</a>'+(p.websiteURI?' &nbsp;·&nbsp; 🌐 <a href="'+esc(p.websiteURI)+'" target="_blank" rel="noopener">Sito</a>':'')+'</div>':'';
+    const hours=(p&&p.regularOpeningHours&&p.regularOpeningHours.weekdayDescriptions)?'<details class="hours"><summary>🕒 Orari di apertura</summary><ul>'+p.regularOpeningHours.weekdayDescriptions.map(d=>'<li>'+esc(d)+'</li>').join('')+'</ul></details>':'';
+    let reviews='';
+    if(p&&p.reviews&&p.reviews.length){
+      reviews='<div class="pm-reviews">'+p.reviews.slice(0,2).map(r=>{
+        let t=r.text; if(t&&typeof t==='object') t=t.text||''; t=(t||'').trim(); if(t.length>220) t=t.slice(0,218)+'…';
+        const who=(r.authorAttribution&&r.authorAttribution.displayName)||'Utente Google';
+        return '<div class="pm-rev"><b>'+esc(who)+'</b> '+(r.rating?'<span style="color:var(--gold)">'+'★'.repeat(Math.round(r.rating))+'</span>':'')+'<br>'+esc(t)+'</div>';
+      }).join('')+'</div>';
+    }
+    const gm=(p&&p.googleMapsURI)?p.googleMapsURI:searchUrl(place);
+    const extra=(place.ticket?'<div class="pm-meta">🎟️ Ingresso: '+esc(place.ticket)+'</div>':'')+(place.services?'<div class="pm-meta">🏖️ '+esc(place.services)+'</div>':'');
+    return gal+'<div class="pm-content">'+
+      '<div class="pm-badges">'+topB+vibeB+priceB+distB+'</div>'+
+      '<h2>'+esc(place.name)+'</h2><div class="town">📍 '+esc(place.town||'')+'</div>'+
+      rating+
+      '<p class="desc">'+esc(place.desc||'')+'</p>'+
+      extra+specHtml(place.spec)+dishHtml+phone+hours+reviews+
+      '<div class="actions" style="margin-top:12px"><a class="btn dir" href="'+dirUrl(place)+'" target="_blank" rel="noopener">🧭 Indicazioni</a> <a class="btn gm" href="'+gm+'" target="_blank" rel="noopener">📍 Apri in Google Maps</a></div>'+
+      '</div>';
+  }
+
+  /* ---------- SEARCH ---------- */
+  function setupSearch(){
+    ['ristoranti','vedere','spiagge','piatti'].forEach(key=>{
+      const inp = document.getElementById('search-'+key);
+      inp.addEventListener('input', ()=>applyFilter(key));
+    });
+    // link incrociati: piatto->ristorante e ristorante->piatto tipico (cambiano scheda)
+    ['grid-piatti','grid-ristoranti'].forEach(gid=>{
+      document.getElementById(gid).addEventListener('click', e=>{
+        const a = e.target.closest('[data-goto]'); if(!a) return;
+        e.preventDefault(); goToCard(a.dataset.goto);
+      });
+    });
+    // negli itinerari le tappe aprono la scheda in una MODALE (così non si perde l'itinerario)
+    const ig=document.getElementById('grid-itinerari');
+    if(ig) ig.addEventListener('click', e=>{
+      const a=e.target.closest('[data-expand]'); if(!a) return;
+      e.preventDefault(); expandPlace(a.dataset.expand);
+    });
+  }
+
+  /* ===========================================================
+     GOOGLE INTEGRATION
+     =========================================================== */
+  let map=null, infoWindow=null, PlaceClass=null;
+  const placeCache = new Map();
+
+  function loadGoogle(key){
+    ((g)=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await(a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({key:key,v:"weekly",language:"it",region:"IT"});
+  }
+
+  async function fetchPlace(place){
+    const q = place.q || (place.name+' '+(place.addr||place.town||''));
+    if(placeCache.has(q)) return placeCache.get(q);
+    const prom = (async()=>{
+      try{
+        const {places} = await PlaceClass.searchByText({
+          textQuery: q,
+          fields: ['displayName','location','photos','rating','userRatingCount','reviews','regularOpeningHours','nationalPhoneNumber','websiteURI','googleMapsURI'],
+          maxResultCount: 1,
+          locationBias: { center: {lat:place.lat,lng:place.lng}, radius: 1200 },
+          language:'it', region:'IT'
+        });
+        return (places&&places[0])||null;
+      }catch(err){ console.warn('Places error for',q,err); return null; }
+    })();
+    placeCache.set(q, prom);
+    return prom;
+  }
+
+  function photoURI(p, w, h, i){
+    i = i||0;
+    try{ if(p && p.photos && p.photos.length>i) return p.photos[i].getURI({maxWidth:w||800, maxHeight:h||600}); }catch(e){}
+    return null;
+  }
+
+  /* enrich a place card with live Google data */
+  async function enrichCard(card){
+    if(card.dataset.enriched) return; card.dataset.enriched='1';
+    const id = card.dataset.id;
+    const place = RESTAURANTS.find(x=>x.id===id)||SIGHTS.find(x=>x.id===id)||BEACHES.find(x=>x.id===id);
+    if(!place) return;
+    const p = await fetchPlace(place);
+    if(!p){ const rt=card.querySelector('[data-rating]'); if(rt) rt.innerHTML=''; return; }
+    // foto da Google: per i ristoranti una mini-galleria (fino a 3 foto reali del posto); per luoghi/spiagge una sola
+    const iw = card.querySelector('[data-img]');
+    const overlay = (iw.querySelector('.badges')?iw.querySelector('.badges').outerHTML:'') + (iw.querySelector('.badge.dist')?iw.querySelector('.badge.dist').outerHTML:'');
+    const isFood = card.dataset.group==='food';
+    if(isFood){
+      const n = Math.min(3, (p.photos||[]).length);
+      if(n>0){
+        let strip='<div class="striprow">';
+        for(let i=0;i<n;i++){ strip += '<img loading="lazy" alt="'+esc(place.name)+'" src="'+photoURI(p,700,600,i)+'">'; }
+        strip+='</div>';
+        iw.innerHTML = strip + overlay;
+      }
+    } else {
+      const uri = photoURI(p,800,600,0);
+      if(uri){ iw.innerHTML = '<img loading="lazy" alt="'+esc(place.name)+'" src="'+uri+'">' + overlay; }
+    }
+    // rating
+    const rt = card.querySelector('[data-rating]');
+    if(rt){ if(p.rating){ rt.innerHTML = '<span class="stars">'+starStr(p.rating)+'</span> <b>'+p.rating.toFixed(1)+'</b> <span>('+(p.userRatingCount||0)+' recensioni Google)</span>'; } else rt.innerHTML=''; }
+    // phone
+    const ph = card.querySelector('[data-phone]');
+    if(ph && p.nationalPhoneNumber){ ph.innerHTML = '📞 <a href="tel:'+esc(p.nationalPhoneNumber.replace(/\s/g,''))+'">'+esc(p.nationalPhoneNumber)+'</a>'; }
+    // website
+    if(ph && p.websiteURI){ ph.innerHTML += (p.nationalPhoneNumber?' &nbsp;·&nbsp; ':'')+'🌐 <a href="'+esc(p.websiteURI)+'" target="_blank" rel="noopener">Sito</a>'; }
+    // hours
+    const hb = card.querySelector('[data-hours]');
+    if(hb && p.regularOpeningHours && p.regularOpeningHours.weekdayDescriptions){
+      hb.innerHTML = '<details class="hours"><summary>🕒 Orari di apertura</summary><ul>'+
+        p.regularOpeningHours.weekdayDescriptions.map(d=>'<li>'+esc(d)+'</li>').join('')+'</ul></details>';
+    }
+    // google maps link -> real listing
+    if(p.googleMapsURI){ const gm=card.querySelector('[data-gm]'); if(gm) gm.href=p.googleMapsURI; }
+    // reviews
+    const rv = card.querySelector('[data-reviews]');
+    if(rv && p.reviews && p.reviews.length){
+      const items = p.reviews.slice(0,2).map(r=>{
+        let txt = r.text; if(txt && typeof txt==='object') txt = txt.text||'';
+        txt = (txt||'').trim(); if(txt.length>230) txt = txt.slice(0,228)+'…';
+        const who = (r.authorAttribution&&r.authorAttribution.displayName)||'Utente Google';
+        const when = r.relativePublishTimeDescription||'';
+        const rr = r.rating? '★'.repeat(Math.round(r.rating)) : '';
+        return '<div class="rv"><div class="who"><span>'+esc(who)+'</span><small>'+esc(rr)+' '+esc(when)+'</small></div>'+esc(txt)+'</div>';
+      }).join('');
+      rv.innerHTML = '<div style="font-size:12px;color:var(--muted);font-weight:700">Recensioni da Google</div>'+items;
+    }
+  }
+
+  async function enrichDish(card){
+    if(card.dataset.enriched) return; card.dataset.enriched='1';
+    const id = card.dataset.id;
+    const d = DISHES.find(x=>x.id===id); if(!d||!d.photoQ) return;
+    const p = await fetchPlace({name:d.photoQ, town:d.where, lat:36.9, lng:15.05});
+    const uri = photoURI(p,800,600);
+    if(uri){
+      const iw = card.querySelector('[data-img]');
+      const badges = iw.querySelector('.badges').outerHTML;
+      iw.innerHTML = '<img loading="lazy" alt="'+esc(d.name)+'" src="'+uri+'">'+badges;
+    }
+  }
+
+  /* Lazy enrichment via IntersectionObserver */
+  let io=null, _scrollT=null;
+  // Fallback robusto all'IntersectionObserver: arricchisce le card visibili nel pannello attivo.
+  function enrichVisible(){
+    if(!HAS_KEY || !PlaceClass) return;
+    const active = document.querySelector('.panel.active'); if(!active) return;
+    active.querySelectorAll('.card[data-group]').forEach(card=>{
+      if(card.dataset.enriched) return;
+      const r = card.getBoundingClientRect();
+      if(r.top < (window.innerHeight+500) && r.bottom > -500) enrichCard(card);
+    });
+  }
+  function setupObserver(){
+    if(!HAS_KEY) return;
+    io = new IntersectionObserver((entries)=>{
+      entries.forEach(en=>{
+        if(en.isIntersecting){
+          const card = en.target;
+          io.unobserve(card);
+          enrichCard(card);
+        }
+      });
+    }, {rootMargin:'200px'});
+    document.querySelectorAll('#grid-ristoranti .card, #grid-vedere .card, #grid-spiagge .card').forEach(c=>io.observe(c));
+    window.addEventListener('scroll', ()=>{ clearTimeout(_scrollT); _scrollT=setTimeout(enrichVisible,150); }, {passive:true});
+    enrichVisible();
+  }
+
+  /* ---------- MAP ---------- */
+  async function initMap(){
+    try{
+      loadGoogle(KEY);
+      const {Map, InfoWindow} = await google.maps.importLibrary("maps");
+      const {AdvancedMarkerElement, PinElement} = await google.maps.importLibrary("marker");
+      const {Place} = await google.maps.importLibrary("places");
+      PlaceClass = Place;
+
+      map = new Map(document.getElementById('map'), {
+        center: {lat:59.55,lng:17.65}, zoom: 9, mapId:'DEMO_MAP_ID',
+        mapTypeControl:false, streetViewControl:false, fullscreenControl:true
+      });
+      infoWindow = new InfoWindow();
+
+      // base marker
+      const mPin = new PinElement({background:'#d9a425',borderColor:'#fff',glyphColor:'#fff',glyph:'🏡',scale:1.3});
+      const mMarker = new AdvancedMarkerElement({map, position:MASSERIA, content:mPin.element, title:MASSERIA.name, gmpClickable:true, zIndex:9999});
+      mMarker.addListener('click', ()=>{
+        infoWindow.setContent('<div style="font-family:Inter,sans-serif;max-width:230px"><b>🏡 '+esc(MASSERIA.name)+'</b><br><span style="font-size:12px;color:#666">'+esc(MASSERIA.addr)+'</span></div>');
+        infoWindow.open({map, anchor:mMarker});
+      });
+
+      const groups = [
+        {arr:RESTAURANTS, g:'food'},
+        {arr:SIGHTS, g:'see'},
+        {arr:BEACHES, g:'beach'}
+      ];
+      const markerStore = {food:[],see:[],beach:[]};
+      const bounds = new google.maps.LatLngBounds();
+      bounds.extend(MASSERIA);
+
+      groups.forEach(({arr,g})=>{
+        arr.forEach(place=>{
+          const pin = new PinElement({background:GROUP_COLOR[g],borderColor:'#fff',glyphColor:'#fff',glyph:GROUP_GLYPH[g]});
+          const mk = new AdvancedMarkerElement({map, position:{lat:place.lat,lng:place.lng}, content:pin.element, title:place.name, gmpClickable:true});
+          markerStore[g].push(mk);
+          bounds.extend({lat:place.lat,lng:place.lng});
+          mk.addListener('click', async ()=>{
+            infoWindow.setContent(infoLoading(place));
+            infoWindow.open({map, anchor:mk});
+            const p = await fetchPlace(place);
+            infoWindow.setContent(infoContent(place, p, g));
+          });
+        });
+      });
+      map.fitBounds(bounds, 40);
+
+      // legend toggles
+      document.getElementById('legend').addEventListener('click', e=>{
+        const lg = e.target.closest('.lg'); if(!lg) return;
+        const g = lg.dataset.grp;
+        lg.classList.toggle('off');
+        const show = !lg.classList.contains('off');
+        markerStore[g].forEach(mk=> mk.map = show? map : null );
+      });
+
+      setupObserver();
+    }catch(err){
+      console.error(err);
+      document.getElementById('map').style.display='none';
+      const fb=document.getElementById('mapFallback'); fb.style.display='block';
+      fb.innerHTML = '<h3 style="margin:0 0 6px">⚠️ Mappa non caricata</h3><p style="margin:0;color:#7a6a57">'+esc(err.message||'Errore Google Maps')+'<br>Controlla che la chiave sia valida e che <b>Maps JavaScript API</b> e <b>Places API (New)</b> siano attive.</p>';
+    }
+  }
+
+  function infoLoading(place){
+    return '<div style="font-family:Inter,sans-serif;max-width:240px"><b>'+esc(place.name)+'</b><br>'+
+      '<span style="font-size:12px;color:#888">Carico foto e dati da Google…</span></div>';
+  }
+  function infoContent(place, p, g){
+    const uri = photoURI(p,360,220);
+    const min = (place.min!=null)?place.min:driveMin(place.z);
+    const rating = (p&&p.rating)? '<div style="margin:4px 0;font-size:13px"><span style="color:#bf9b43">'+starStr(p.rating)+'</span> <b>'+p.rating.toFixed(1)+'</b> <span style="color:#888">('+(p.userRatingCount||0)+')</span></div>':'';
+    const img = uri? '<img src="'+uri+'" alt="'+esc(place.name)+'" style="width:100%;height:130px;object-fit:cover;border-radius:8px;margin-bottom:8px">':'';
+    return '<div style="font-family:Inter,sans-serif;max-width:250px">'+img+
+      '<b style="font-size:15px">'+esc(place.name)+'</b>'+
+      '<div style="font-size:12px;color:#888;margin:2px 0">📍 '+esc(place.town||'')+(min!=null?' · 🚗 ~'+min+' min':'')+'</div>'+
+      rating+
+      '<p style="font-size:12.5px;color:#444;margin:6px 0 8px">'+esc((place.desc||'').slice(0,110))+((place.desc||'').length>110?'…':'')+'</p>'+
+      '<button onclick="window.__expandPlace(\''+place.id+'\')" style="width:100%;border:none;background:#c0563b;color:#fff;padding:9px;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">📋 Espandi scheda</button>'+
+      '</div>';
+  }
+
+  /* ---------- SETUP BANNER ---------- */
+  function renderSetupBox(){
+    const box = document.getElementById('setupBox');
+    if(HAS_KEY){
+      box.innerHTML = '<div class="setup"><span class="pill-ok">✓ Chiave Google inserita</span> '+
+        '<span style="color:var(--muted);font-size:13.5px">Mappa, foto, recensioni e orari sono attivi. Se qualcosa non carica, controlla le API abilitate e le restrizioni della chiave.</span></div>';
+      return;
+    }
+    box.innerHTML =
+    '<div class="setup">'+
+      '<h3>⚙️ Setup chiave Google <span class="pill-warn">chiave non ancora inserita</span></h3>'+
+      '<p style="margin:4px 0 8px;color:var(--muted)">La guida funziona già (schede, piatti, link a Google Maps). Per <b>mappa interattiva, foto, recensioni e orari in diretta</b> serve una chiave Google Maps Platform — di norma <b>gratis</b> per un uso personale come questo.</p>'+
+      '<ol>'+
+        '<li>Vai su <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">console.cloud.google.com</a>, accedi e crea un progetto (es. “Vacanza Bålsta”).</li>'+
+        '<li>Attiva la <b>fatturazione</b> (richiede una carta; resterai quasi certamente nella soglia gratuita).</li>'+
+        '<li>In “API e servizi → Libreria” abilita: <b>Maps JavaScript API</b>, <b>Places API (New)</b>.</li>'+
+        '<li>In “Credenziali” crea una <b>Chiave API</b> e copiala.</li>'+
+        '<li>Apri questo file con un editor di testo e sostituisci <code>INCOLLA_QUI_LA_TUA_CHIAVE</code> con la tua chiave (riga in alto, <code>const GOOGLE_MAPS_API_KEY</code>). Salva e riapri.</li>'+
+      '</ol>'+
+      '<details><summary>Consigli di sicurezza e costi</summary>'+
+        '<p style="font-size:13.5px;color:var(--muted);margin:8px 0 0">• La chiave è visibile a chi apre il file: per uso personale va bene, ma <b>limitala alle sole API</b> Maps JavaScript + Places nelle restrizioni della chiave. Se pubblichi il file online, aggiungi una restrizione per “referrer HTTP”.<br>'+
+        '• Imposta un <b>budget/avviso</b> nella sezione Fatturazione (es. 5€) per stare tranquillo.<br>'+
+        '• Le schede caricano i dati solo quando le scorri, così le chiamate restano poche.</p>'+
+      '</details>'+
+    '</div>';
+  }
+
+  /* ---------- INIT ---------- */
+  function init(){
+    render();
+    setupTabs();
+    setupSearch();
+    renderSetupBox();
+    if(HAS_KEY){ initMap(); }
+    else { document.getElementById('map').style.display='none'; document.getElementById('mapFallback').style.display='block'; }
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>
